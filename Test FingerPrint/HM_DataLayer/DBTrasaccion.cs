@@ -29,12 +29,11 @@ namespace HM_DataLayer
             return Exitosa;
         }
 
-        public string CrearOperador(OperadorHBytes ObjOperador)
+        public string CrearOperador(OperadorHString ObjOperador)
         {
             string Respuesta;
             var ConClass = new DaConnectSQL();
-            string huellaConvertida = Convert.ToBase64String(ObjOperador.Huella);
-
+            
             try
             {
                 SqlCommand cmd = new SqlCommand();
@@ -45,7 +44,7 @@ namespace HM_DataLayer
                 cmd.Transaction = ConClass.Con.BeginTransaction();
 
                 cmd.CommandText = "Insert into Operadores (Nombre, CodOperador, Huella) " +
-                        "Values  ('" + ObjOperador.Nombre + "','" + ObjOperador.CodOperador + "','" + huellaConvertida + "')";
+                        "Values  ('" + ObjOperador.Nombre + "','" + ObjOperador.CodOperador + "','" + ObjOperador.Huella + "')";
 
                 cmd.ExecuteNonQuery();
                 cmd.Transaction.Commit();

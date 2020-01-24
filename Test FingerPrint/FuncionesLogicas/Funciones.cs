@@ -13,9 +13,11 @@ namespace FuncionesLogicas
     public class Funciones
     {
         DBTrasaccion transaccion = new DBTrasaccion();
+
         private const int PROBABILITY_ONE = 0x7fffffff;
         private Fmd firstFinger;
-            
+        
+
         public bool ValidaConexionSQL()
         {
             
@@ -24,17 +26,20 @@ namespace FuncionesLogicas
             return Exitosa;
         }
 
-        public string CrearOperador(Fmd presult,string pcodOperador, string pnombre)
+        public string CrearOperador(Fmd presult, string pcodOperador, string pnombre)
         {
             string respuesta;
             string Mensaje;
+            string huellaConvertida;
           
             respuesta = CompararHuella(presult, presult);
 
-            if (respuesta == "Huella no encontrada")
+            if (respuesta == "null")
             {
-                OperadorHBytes operadores = new OperadorHBytes();
-                operadores.Huella = presult.Bytes;
+                huellaConvertida = Helper.ConvertirHuellaAString(presult.Bytes);
+
+                OperadorHString operadores = new OperadorHString();
+                operadores.Huella = huellaConvertida;
                 operadores.CodOperador = pcodOperador;
                 operadores.Nombre = pnombre;
                 
@@ -67,9 +72,9 @@ namespace FuncionesLogicas
             ///otro string que almacenaremos y pegaremos en el mensaje el nombre del operador que esta registrado en la BD 
             ///una variable de tipo lista para almacenar los registros que nos traera el metodo ListarHuellas de la clase transaccion 
 
-            string mensaje = "Huella no encontrada";
             int count = 0;
-            string nombreOp = "";
+            string codOp = "";
+            string CodOperador = "null";
             List<OperadorHString> ListaHuellas = transaccion.ListarHuellas();
 
             ///un foreach para capturar los valores de cada registro
@@ -91,15 +96,15 @@ namespace FuncionesLogicas
                 if (compareResult.Score < (PROBABILITY_ONE / 100000))
                 {
                     count++;
-                    nombreOp = item.Nombre;
+                    codOp = item.CodOperador;
                 }
             }
                 if (count > 0)
                 {
-                    mensaje = "Huella coincide con " + nombreOp;
+                    CodOperador = codOp;
                 }
            
-            return mensaje;
+            return CodOperador;
         }
 
         public List<OperadorHString> ListarHuellas()

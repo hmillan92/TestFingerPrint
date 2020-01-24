@@ -17,6 +17,7 @@ namespace UareUSampleCSharp
         private Fmd firstFinger;
         private Fmd secondFinger;
         private int count;
+        private string codOperador;
         Funciones funciones = new Funciones();
 
 
@@ -75,10 +76,20 @@ namespace UareUSampleCSharp
 
                     firstFinger = resultConversion.Data;
                         
-                    string mensaje = funciones.CompararHuella(firstFinger, secondFinger);
+                    codOperador = funciones.CompararHuella(firstFinger, secondFinger);
 
-                    SendMessage(Action.SendMessage, mensaje);
-                    SendMessage(Action.SendMessage, "Place a finger on the reader.");
+                    if (codOperador != "null")
+                    {
+                        SendMessage(Action.SendMessage, "Huella coincide con operador " + codOperador);
+                        SendMessage(Action.SendMessage, "Place a finger on the reader.");
+                    }
+
+                    else
+                    {
+                        SendMessage(Action.SendMessage, "Huella no encontrada.");
+                        SendMessage(Action.SendMessage, "Place a finger on the reader.");
+                    }
+                    
                     count = 0;
                 }
             }
