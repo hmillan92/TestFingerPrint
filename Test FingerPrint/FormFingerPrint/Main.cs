@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FuncionesLogicas;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,8 +27,25 @@ namespace FormFingerPrint
 
         private void btnVerificar_Click(object sender, EventArgs e)
         {
-            fmrVerificar FormVerificar = new fmrVerificar();
+            fmrListar FormVerificar = new fmrListar();
             FormVerificar.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            bool msj;
+            Funciones funciones = new Funciones();
+            msj = funciones.ValidaConexionSQL();
+
+            if (msj != true)
+            {
+                MessageBox.Show("Error al Conectar");
+            }
+
+            else
+            {
+                MessageBox.Show("Conectado!");
+            }
         }
     }
 }

@@ -12,6 +12,21 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,7 +65,10 @@
       <HintPath>..\..\..\Program Files\DigitalPersona\U.are.U SDK\Windows\Lib\.NET\DPXUru.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,17 +80,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Capabilities.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Capabilities.Designer.cs">
+      <DependentUpon>Capabilities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Enrollment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Enrollment.Designer.cs">
+      <DependentUpon>Enrollment.cs</DependentUpon>
+    </Compile>
     <Compile Include="fmrRegistrar.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="fmrRegistrar.Designer.cs">
       <DependentUpon>fmrRegistrar.cs</DependentUpon>
     </Compile>
-    <Compile Include="fmrVerificar.cs">
+    <Compile Include="fmrListar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="fmrVerificar.Designer.cs">
-      <DependentUpon>fmrVerificar.cs</DependentUpon>
+    <Compile Include="fmrListar.Designer.cs">
+      <DependentUpon>fmrListar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Main.Designer.cs">
+      <DependentUpon>Form_Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
@@ -82,6 +118,33 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReaderSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReaderSelection.Designer.cs">
+      <DependentUpon>ReaderSelection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Verification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Verification.Designer.cs">
+      <DependentUpon>Verification.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Capabilities.resx">
+      <DependentUpon>Capabilities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Enrollment.resx">
+      <DependentUpon>Enrollment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmrListar.resx">
+      <DependentUpon>fmrListar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmrRegistrar.resx">
+      <DependentUpon>fmrRegistrar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Main.resx">
+      <DependentUpon>Form_Main.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -94,18 +157,40 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
+    <EmbeddedResource Include="ReaderSelection.resx">
+      <DependentUpon>ReaderSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Verification.resx">
+      <DependentUpon>Verification.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <ProjectReference Include="..\Entidades\Entidades.csproj">
+      <Project>{80B33B1E-3199-4722-825A-148004A686A4}</Project>
+      <Name>Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FuncionesLogicas\FuncionesLogicas.csproj">
+      <Project>{1ee350ee-5294-4c69-834a-d717516f1ec3}</Project>
+      <Name>FuncionesLogicas</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 y x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DataSources\Entidades.HuellaBd.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
