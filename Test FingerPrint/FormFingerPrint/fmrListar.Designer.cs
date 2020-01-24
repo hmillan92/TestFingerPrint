@@ -30,46 +30,37 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvListar = new System.Windows.Forms.DataGridView();
-            this.idOperadorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.huellaBdBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.btnBack = new System.Windows.Forms.Button();
+            this.CodOperador = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.huellaBdBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvListar
             // 
+            this.dgvListar.AllowUserToAddRows = false;
+            this.dgvListar.AllowUserToDeleteRows = false;
             this.dgvListar.AutoGenerateColumns = false;
             this.dgvListar.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvListar.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvListar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvListar.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idOperadorDataGridViewTextBoxColumn,
+            this.CodOperador,
             this.nombreDataGridViewTextBoxColumn});
             this.dgvListar.DataSource = this.huellaBdBindingSource;
             this.dgvListar.Enabled = false;
             this.dgvListar.Location = new System.Drawing.Point(12, 45);
             this.dgvListar.Name = "dgvListar";
+            this.dgvListar.ReadOnly = true;
             this.dgvListar.Size = new System.Drawing.Size(306, 161);
             this.dgvListar.TabIndex = 0;
             // 
-            // idOperadorDataGridViewTextBoxColumn
-            // 
-            this.idOperadorDataGridViewTextBoxColumn.DataPropertyName = "IdOperador";
-            this.idOperadorDataGridViewTextBoxColumn.HeaderText = "IdOperador";
-            this.idOperadorDataGridViewTextBoxColumn.Name = "idOperadorDataGridViewTextBoxColumn";
-            // 
-            // nombreDataGridViewTextBoxColumn
-            // 
-            this.nombreDataGridViewTextBoxColumn.DataPropertyName = "Nombre";
-            this.nombreDataGridViewTextBoxColumn.HeaderText = "Nombre";
-            this.nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
-            // 
             // huellaBdBindingSource
             // 
-            this.huellaBdBindingSource.DataSource = typeof(Entidades.HuellaBd);
+            this.huellaBdBindingSource.DataSource = typeof(Entidades.OperadorHString);
             // 
             // label1
             // 
@@ -88,6 +79,20 @@
             this.btnBack.TabIndex = 7;
             this.btnBack.Text = "Back";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // CodOperador
+            // 
+            this.CodOperador.DataPropertyName = "CodOperador";
+            this.CodOperador.HeaderText = "CodOperador";
+            this.CodOperador.Name = "CodOperador";
+            this.CodOperador.ReadOnly = true;
+            // 
+            // nombreDataGridViewTextBoxColumn
+            // 
+            this.nombreDataGridViewTextBoxColumn.DataPropertyName = "Nombre";
+            this.nombreDataGridViewTextBoxColumn.HeaderText = "Nombre";
+            this.nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
+            this.nombreDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // fmrListar
             // 
@@ -110,10 +115,10 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvListar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idOperadorDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource huellaBdBindingSource;
         private System.Windows.Forms.Label label1;
         internal System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CodOperador;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
     }
 }

@@ -22,7 +22,7 @@ namespace FormFingerPrint
 
         private void fmrListar_Load(object sender, EventArgs e)
         {
-            List<HuellaBd> listarOp = funciones.ListarHuellas();
+            List<OperadorHString> listarOp = funciones.ListarHuellas();
 
             dgvListar.DataSource = listarOp;
         }

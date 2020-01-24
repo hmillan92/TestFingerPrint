@@ -43,8 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FmdOperador.cs" />
-    <Compile Include="HuellaBd.cs" />
-    <Compile Include="Operadores.cs" />
+    <Compile Include="OperadorHBytes.cs" />
+    <Compile Include="OperadorHString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

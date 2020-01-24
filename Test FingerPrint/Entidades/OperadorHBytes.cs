@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    public class Operadores
+    public class OperadorHBytes
     {
         public int IdOperador { get; set; }
+
+        public string CodOperador { get; set; }
 
         public string Nombre { get; set; }
 

@@ -24,7 +24,7 @@ namespace FuncionesLogicas
             return Exitosa;
         }
 
-        public string CrearOperador(Fmd presult, string pnombre)
+        public string CrearOperador(Fmd presult,string pcodOperador, string pnombre)
         {
             string respuesta;
             string Mensaje;
@@ -33,9 +33,11 @@ namespace FuncionesLogicas
 
             if (respuesta == "Huella no encontrada")
             {
-                Operadores operadores = new Operadores();
+                OperadorHBytes operadores = new OperadorHBytes();
                 operadores.Huella = presult.Bytes;
+                operadores.CodOperador = pcodOperador;
                 operadores.Nombre = pnombre;
+                
 
                 Mensaje = transaccion.CrearOperador(operadores);
             }
@@ -68,7 +70,7 @@ namespace FuncionesLogicas
             string mensaje = "Huella no encontrada";
             int count = 0;
             string nombreOp = "";
-            List<HuellaBd> ListaHuellas = transaccion.ListarHuellas();
+            List<OperadorHString> ListaHuellas = transaccion.ListarHuellas();
 
             ///un foreach para capturar los valores de cada registro
             foreach (var item in ListaHuellas)
@@ -88,28 +90,21 @@ namespace FuncionesLogicas
                 //preguntamos si el Score es menor a la operacion establecida en el if, si el resultado es true entonces ambas huellas tienen similitud
                 if (compareResult.Score < (PROBABILITY_ONE / 100000))
                 {
-
-                    ///count es el switche que usaremos para saber si entro a este if asignandole un valor de 1 
                     count++;
-
-                    ///y el nombre para guardaren la variable nombreOp y asi saber con quien operador tuvo similitud la huella capturada
                     nombreOp = item.Nombre;
                 }
             }
-
-            ///este if determinara si count es mayor que 1 es porque paso al menos una vez dentro del if que esta en el foreach y crearemos el mensaje con el nombre que nos trajo
-            if (count > 0)
-            {
-                mensaje = "Huella coincide con " + nombreOp;
-            }
+                if (count > 0)
+                {
+                    mensaje = "Huella coincide con " + nombreOp;
+                }
            
-            ///devolvemos el mensaje a verification
             return mensaje;
         }
 
-        public List<HuellaBd> ListarHuellas()
+        public List<OperadorHString> ListarHuellas()
         {
-            List<HuellaBd> listarOp = transaccion.ListarHuellas();
+            List<OperadorHString> listarOp = transaccion.ListarHuellas();
 
             return listarOp;
         }

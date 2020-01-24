@@ -25,7 +25,8 @@ namespace HM_DataLayer.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Daaltex;Pooling=False;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=192.168.250.118;Initial Catalog=Daaltex;Pooling=False; User=sa;Passwo" +
+            "rd=B1Admin")]
         public string ConnStringSQL {
             get {
                 return ((string)(this["ConnStringSQL"]));

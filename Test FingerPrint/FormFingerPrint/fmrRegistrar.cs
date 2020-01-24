@@ -12,6 +12,7 @@ namespace FormFingerPrint
     {
         string mensaje;
         string nombre;
+        string codOperador;
         Fmd result;
         Funciones funciones = new Funciones();
         Form_Main form_Main = new Form_Main();
@@ -41,8 +42,9 @@ namespace FormFingerPrint
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             nombre = txtNombre.Text;
-            
-            mensaje = funciones.CrearOperador(result, nombre);            
+            codOperador = txtCodOperador.Text;
+
+            mensaje = funciones.CrearOperador(result, codOperador, nombre);            
             MessageBox.Show(mensaje);
             this.Close();
 
