@@ -13,8 +13,9 @@ namespace FuncionesLogicas
     public class Funciones
     {
         DBTrasaccion transaccion = new DBTrasaccion();
+        Helper oHelper = new Helper();
         private const int PROBABILITY_ONE = 0x7fffffff;
-        private Fmd firstFinger;       
+              
 
         public bool ValidaConexionSQL()
         {          
@@ -32,7 +33,7 @@ namespace FuncionesLogicas
 
             if (oOperador.IdOperador == 0)
             {
-                huellaConvertida = Helper.ConvertirHuellaAString(presult.Bytes);
+                huellaConvertida = Convert.ToBase64String(presult.Bytes);
 
                 oOperador = new Operador();
                 oOperador.CodOperador = pcodOperador;
@@ -54,20 +55,20 @@ namespace FuncionesLogicas
         public Operador CompararHuella(Fmd firstF, Fmd secondF)
         {
             ///Añadimos el parametro firstF a firstFinger un objeto de tipo Fmd que sera el objeto de la huella capturada
-            firstFinger = firstF;
-
+            Fmd firstFinger = firstF;
+            
             ///creamos el segundo objeto de tipo Fmd y le pasamos los parametros que pide el constructor de esa clase, los parametros son tomados del objeto 1
             ///se hace esto porque la propiedad bytes de un mismo objeto al ser cambiada en una variable, se cambia en todas las demas como si fuese una variable estatica
             ///y necesitamos resetear solo los bytes para poder asignarle los bytes que se encuentran en la BD al objeto 2 para compararlas 
             ///solo necesitamos cambiar los bytes porque los otros parametros que pide el constructor y que el toma del objeto 1 no los vamos a necesitar para hacer la comparacion.
-            Fmd secondFinger = new Fmd(firstFinger.Bytes, 1769473, "1.0.0");
+            Fmd secondFinger = new Fmd(firstFinger.Bytes, oHelper.Format , oHelper.Version);
 
             int count = 0;
             int idOp = 0;
             string codOp = string.Empty;
             string nombreOp = string.Empty;
             string statusOP = string.Empty;
-            Operador operadorEncontrado = new Operador();
+            
             List<Operador> ListaHuellas = transaccion.ListarHuellas();
 
             ///un foreach para capturar los valores de cada registro
@@ -97,8 +98,10 @@ namespace FuncionesLogicas
                 }
             }
 
+            Operador operadorEncontrado = new Operador();
             if (count > 0)
             {
+                operadorEncontrado = new Operador();
                 operadorEncontrado.IdOperador = idOp;
                 operadorEncontrado.CodOperador = codOp;
                 operadorEncontrado.Nombre = nombreOp;

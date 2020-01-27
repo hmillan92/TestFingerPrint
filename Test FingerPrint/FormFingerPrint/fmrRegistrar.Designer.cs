@@ -46,7 +46,7 @@
             // btnAgregar
             // 
             this.btnAgregar.Enabled = false;
-            this.btnAgregar.Location = new System.Drawing.Point(90, 105);
+            this.btnAgregar.Location = new System.Drawing.Point(99, 105);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 23);
             this.btnAgregar.TabIndex = 1;
@@ -89,7 +89,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(193, 105);
+            this.btnCancelar.Location = new System.Drawing.Point(195, 105);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 6;

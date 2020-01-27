@@ -14,6 +14,7 @@ namespace UareUSampleCSharp
         /// </summary>
         public Form_Main _sender;
         List<Fmd> preenrollmentFmds;
+        Helper oHelper = new Helper();
         int count;
 
         Funciones funciones = new Funciones();
@@ -38,7 +39,7 @@ namespace UareUSampleCSharp
             preenrollmentFmds.Clear();
             count = 0;
             
-            SendMessage(Action.SendMessage, "Place a finger on the reader.");
+            SendMessage(Action.SendMessage, oHelper.Mensaje1);
 
             if (!_sender.OpenReader())
             {
@@ -68,7 +69,9 @@ namespace UareUSampleCSharp
 
                 DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
 
-                SendMessage(Action.SendMessage, "A finger was captured.  \r\nCount:  " + (count));
+                txtEnroll.Clear();
+
+                SendMessage(Action.SendMessage, oHelper.Mensaje2  +"\r\nCount: "   + (count)+"/4");
 
                 if (resultConversion.ResultCode != Constants.ResultCode.DP_SUCCESS)
                 {
@@ -83,11 +86,10 @@ namespace UareUSampleCSharp
                     DataResult<Fmd> resultEnrollment = DPUruNet.Enrollment.CreateEnrollmentFmd(Constants.Formats.Fmd.ANSI, preenrollmentFmds);
 
                     if (resultEnrollment.ResultCode == Constants.ResultCode.DP_SUCCESS)
-                    {
-                        SendMessage(Action.SendMessage, "An enrollment FMD was successfully created.");                      
+                    {                       
+                        SendMessage(Action.SendMessage, oHelper.Mensaje3);                      
                         result = resultEnrollment;
-                        btnAceptar.Enabled = true;
-                        SendMessage(Action.SendMessage, "Place a finger on the reader.");                       
+                        btnAceptar.Enabled = true;                       
                         preenrollmentFmds.Clear();
                         count = 0;                       
                         return;
@@ -96,20 +98,18 @@ namespace UareUSampleCSharp
                     
                     else if (resultEnrollment.ResultCode == Constants.ResultCode.DP_ENROLLMENT_INVALID_SET)
                     {
-                        SendMessage(Action.SendMessage, "Enrollment was unsuccessful.  Please try again.");
-                        SendMessage(Action.SendMessage, "Place a finger on the reader.");
+                        SendMessage(Action.SendMessage, oHelper.Mensaje4);
+                        SendMessage(Action.SendMessage, oHelper.Mensaje1);
                         preenrollmentFmds.Clear();
                         count = 0;
                         return;
                     }
                 }
-
-                SendMessage(Action.SendMessage, "Now place the same finger on the reader.");
             }
             catch (Exception ex)
             {
                 // Send error message, then close form
-                SendMessage(Action.SendMessage, "Error:  " + ex.Message);                
+                SendMessage(Action.SendMessage, oHelper.Error + ex.Message);                
             }  
         }
 
@@ -168,7 +168,7 @@ namespace UareUSampleCSharp
 
             if (result != null)
             {
-                string mensaje = "Huella capturada.";               
+                string mensaje = oHelper.Mensaje2;               
                 fmrRegistrar registrar = new fmrRegistrar(mensaje, result.Data);
                 this.Close();
                 registrar.ShowDialog();               

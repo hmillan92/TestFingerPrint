@@ -27,12 +27,12 @@ namespace FormFingerPrint
             InitializeComponent();
             mensaje = pmensaje;
             result = presult;
-            txtNombre.Focus();
+            
 
         }
 
         private void fmrRegistrar_Load(object sender, EventArgs e)
-        {           
+        {
             txtHuella.Text = mensaje;
             if (result != null)
             {

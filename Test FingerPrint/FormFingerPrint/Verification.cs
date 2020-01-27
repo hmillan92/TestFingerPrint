@@ -20,6 +20,7 @@ namespace UareUSampleCSharp
         private int count;
         private Operador OperadorEncontrado = new Operador();
         Funciones funciones = new Funciones();
+        Helper oHelper = new Helper();
 
 
         public Verification()
@@ -39,7 +40,7 @@ namespace UareUSampleCSharp
             secondFinger = null;
             count = 0;
 
-            SendMessage(Action.SendMessage, "Place a finger on the reader.");
+            SendMessage(Action.SendMessage, oHelper.Mensaje1);
 
             if (!_sender.OpenReader())
             {
@@ -63,7 +64,7 @@ namespace UareUSampleCSharp
                 // Check capture quality and throw an error if bad.
                 if (!_sender.CheckCaptureResult(captureResult)) return;
 
-                SendMessage(Action.SendMessage, "A finger was captured.");
+                SendMessage(Action.SendMessage, oHelper.Mensaje2);
 
                 DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
                 if (resultConversion.ResultCode != Constants.ResultCode.DP_SUCCESS)
@@ -82,13 +83,13 @@ namespace UareUSampleCSharp
                     if (OperadorEncontrado.IdOperador != 0)
                     {
                         SendMessage(Action.SendMessage, "Huella coincide con operador " + OperadorEncontrado.Nombre+ " y su status es "+ OperadorEncontrado.Status);
-                        SendMessage(Action.SendMessage, "Place a finger on the reader.");
+                        SendMessage(Action.SendMessage, oHelper.Mensaje1);
                     }
 
                     else
                     {
-                        SendMessage(Action.SendMessage, "Huella no encontrada.");
-                        SendMessage(Action.SendMessage, "Place a finger on the reader.");
+                        SendMessage(Action.SendMessage, oHelper.Mensaje5);
+                        SendMessage(Action.SendMessage, oHelper.Mensaje1);
                     }
                     
                     count = 0;
@@ -97,7 +98,7 @@ namespace UareUSampleCSharp
             catch (Exception ex)
             {
                 // Send error message, then close form
-                SendMessage(Action.SendMessage, "Error:  " + ex.Message);                
+                SendMessage(Action.SendMessage, oHelper.Error + ex.Message);                
             }
         }
 
