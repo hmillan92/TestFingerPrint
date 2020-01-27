@@ -29,7 +29,7 @@ namespace HM_DataLayer
             return Exitosa;
         }
 
-        public string CrearOperador(OperadorHString ObjOperador)
+        public string CrearOperador(Operador oOperador)
         {
             string Respuesta;
             var ConClass = new DaConnectSQL();
@@ -43,8 +43,8 @@ namespace HM_DataLayer
                 ConClass.Open();
                 cmd.Transaction = ConClass.Con.BeginTransaction();
 
-                cmd.CommandText = "Insert into Operadores (Nombre, CodOperador, Huella) " +
-                        "Values  ('" + ObjOperador.Nombre + "','" + ObjOperador.CodOperador + "','" + ObjOperador.Huella + "')";
+                cmd.CommandText = "Insert into Operadores (CodOperador, Nombre, Huella, Status) " +
+                        "Values  ('" + oOperador.CodOperador + "','" + oOperador.Nombre + "','" + oOperador.Huella + "', '" + oOperador.Status + "')";
 
                 cmd.ExecuteNonQuery();
                 cmd.Transaction.Commit();
@@ -65,34 +65,34 @@ namespace HM_DataLayer
             return Respuesta;
         }
 
-        public List<OperadorHString> ListarHuellas()
+        public List<Operador> ListarHuellas()
         {
-            List<OperadorHString> ListaHuellas = new List<OperadorHString>();
+            List<Operador> ListaHuellas = new List<Operador>();
             var ConClass = new DaConnectSQL();
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = ConClass.DASQLConnection();
             cmd.CommandType = CommandType.Text;
 
+            try
+            {
             ConClass.Open();
-
             cmd.CommandType = CommandType.Text;
             cmd.Connection = cmd.Connection;
 
             cmd.CommandText = "SELECT * FROM Operadores ";
 
             SqlDataReader dr = cmd.ExecuteReader();
-
-            try
-            {
+            
                 while (dr.Read())
                 {
                     {
-                        OperadorHString OperadoresBd = new OperadorHString();
+                        Operador OperadoresBd = new Operador();
                         OperadoresBd.IdOperador = dr.GetInt32(0);
                         OperadoresBd.CodOperador = dr.GetString(1);
                         OperadoresBd.Nombre = dr.GetString(2);
                         OperadoresBd.Huella = dr.GetString(3);
+                        OperadoresBd.Status = dr.GetString(4);
 
                         ListaHuellas.Add(OperadoresBd);
                     }

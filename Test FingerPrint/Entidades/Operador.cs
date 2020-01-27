@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    public class OperadorHString
+    public class Operador
     {
         public int IdOperador { get; set; }
 
@@ -15,5 +15,7 @@ namespace Entidades
         public string Nombre { get; set; }
 
         public string Huella { get; set; }
+
+        public string Status { get; set; }
     }
 }

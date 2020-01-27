@@ -35,6 +35,7 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.CodOperador = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.huellaBdBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -49,7 +50,8 @@
             this.dgvListar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvListar.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CodOperador,
-            this.nombreDataGridViewTextBoxColumn});
+            this.nombreDataGridViewTextBoxColumn,
+            this.Status});
             this.dgvListar.DataSource = this.huellaBdBindingSource;
             this.dgvListar.Enabled = false;
             this.dgvListar.Location = new System.Drawing.Point(12, 45);
@@ -60,7 +62,7 @@
             // 
             // huellaBdBindingSource
             // 
-            this.huellaBdBindingSource.DataSource = typeof(Entidades.OperadorHString);
+            this.huellaBdBindingSource.DataSource = typeof(Entidades.Operador);
             // 
             // label1
             // 
@@ -94,6 +96,13 @@
             this.nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
             this.nombreDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // Status
+            // 
+            this.Status.DataPropertyName = "Status";
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            // 
             // fmrListar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -120,5 +129,6 @@
         internal System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.DataGridViewTextBoxColumn CodOperador;
         private System.Windows.Forms.DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
     }
 }

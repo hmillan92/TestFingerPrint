@@ -13,49 +13,45 @@ namespace FuncionesLogicas
     public class Funciones
     {
         DBTrasaccion transaccion = new DBTrasaccion();
-
         private const int PROBABILITY_ONE = 0x7fffffff;
-        private Fmd firstFinger;
-        
+        private Fmd firstFinger;       
 
         public bool ValidaConexionSQL()
-        {
-            
+        {          
             bool Exitosa = transaccion.ValidaConexionSQL();
-
             return Exitosa;
         }
 
-        public string CrearOperador(Fmd presult, string pcodOperador, string pnombre)
+        public string CrearOperador(Fmd presult, string pcodOperador, string pnombre,string pstatus)
         {
-            string respuesta;
+            Operador oOperador;
             string Mensaje;
             string huellaConvertida;
-          
-            respuesta = CompararHuella(presult, presult);
 
-            if (respuesta == "null")
+            oOperador = CompararHuella(presult, presult);
+
+            if (oOperador.IdOperador == 0)
             {
                 huellaConvertida = Helper.ConvertirHuellaAString(presult.Bytes);
 
-                OperadorHString operadores = new OperadorHString();
-                operadores.Huella = huellaConvertida;
-                operadores.CodOperador = pcodOperador;
-                operadores.Nombre = pnombre;
-                
+                oOperador = new Operador();
+                oOperador.CodOperador = pcodOperador;
+                oOperador.Nombre = pnombre;
+                oOperador.Huella = huellaConvertida;
+                oOperador.Status = pstatus;
 
-                Mensaje = transaccion.CrearOperador(operadores);
+                Mensaje = transaccion.CrearOperador(oOperador);
             }
 
             else
             {
-                Mensaje = "No se puede agregar, "+respuesta;
+                Mensaje = "Ya existe un operador registrado con esta huella";
             }
           
             return Mensaje;
         }
 
-        public string CompararHuella(Fmd firstF, Fmd secondF)
+        public Operador CompararHuella(Fmd firstF, Fmd secondF)
         {
             ///Añadimos el parametro firstF a firstFinger un objeto de tipo Fmd que sera el objeto de la huella capturada
             firstFinger = firstF;
@@ -64,18 +60,15 @@ namespace FuncionesLogicas
             ///se hace esto porque la propiedad bytes de un mismo objeto al ser cambiada en una variable, se cambia en todas las demas como si fuese una variable estatica
             ///y necesitamos resetear solo los bytes para poder asignarle los bytes que se encuentran en la BD al objeto 2 para compararlas 
             ///solo necesitamos cambiar los bytes porque los otros parametros que pide el constructor y que el toma del objeto 1 no los vamos a necesitar para hacer la comparacion.
-            Fmd secondFinger = new Fmd(firstFinger.Bytes,1769473, "1.0.0");
-
-            ///declaramos 4 variables
-            ///un tipo string para el mensaje a retornar
-            ///uno de tipo int para contar, funcionara como un switche
-            ///otro string que almacenaremos y pegaremos en el mensaje el nombre del operador que esta registrado en la BD 
-            ///una variable de tipo lista para almacenar los registros que nos traera el metodo ListarHuellas de la clase transaccion 
+            Fmd secondFinger = new Fmd(firstFinger.Bytes, 1769473, "1.0.0");
 
             int count = 0;
-            string codOp = "";
-            string CodOperador = "null";
-            List<OperadorHString> ListaHuellas = transaccion.ListarHuellas();
+            int idOp = 0;
+            string codOp = string.Empty;
+            string nombreOp = string.Empty;
+            string statusOP = string.Empty;
+            Operador operadorEncontrado = new Operador();
+            List<Operador> ListaHuellas = transaccion.ListarHuellas();
 
             ///un foreach para capturar los valores de cada registro
             foreach (var item in ListaHuellas)
@@ -96,20 +89,28 @@ namespace FuncionesLogicas
                 if (compareResult.Score < (PROBABILITY_ONE / 100000))
                 {
                     count++;
+                    idOp = item.IdOperador;
                     codOp = item.CodOperador;
+                    nombreOp = item.Nombre;
+                    statusOP = item.Status;
+
                 }
             }
-                if (count > 0)
-                {
-                    CodOperador = codOp;
-                }
+
+            if (count > 0)
+            {
+                operadorEncontrado.IdOperador = idOp;
+                operadorEncontrado.CodOperador = codOp;
+                operadorEncontrado.Nombre = nombreOp;
+                operadorEncontrado.Status = statusOP;
+            }
            
-            return CodOperador;
+            return operadorEncontrado;
         }
 
-        public List<OperadorHString> ListarHuellas()
+        public List<Operador> ListarHuellas()
         {
-            List<OperadorHString> listarOp = transaccion.ListarHuellas();
+            List<Operador> listarOp = transaccion.ListarHuellas();
 
             return listarOp;
         }

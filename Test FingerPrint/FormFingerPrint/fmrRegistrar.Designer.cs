@@ -34,10 +34,12 @@
             this.txtHuella = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.huellaBdBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnCancelar = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.txtCodOperador = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cbStatus = new System.Windows.Forms.ComboBox();
+            this.huellaBdBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.huellaBdBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,15 +58,15 @@
             // 
             this.txtNombre.Location = new System.Drawing.Point(60, 24);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(270, 20);
+            this.txtNombre.Size = new System.Drawing.Size(115, 20);
             this.txtNombre.TabIndex = 2;
             // 
             // txtHuella
             // 
             this.txtHuella.Enabled = false;
-            this.txtHuella.Location = new System.Drawing.Point(237, 66);
+            this.txtHuella.Location = new System.Drawing.Point(55, 66);
             this.txtHuella.Name = "txtHuella";
-            this.txtHuella.Size = new System.Drawing.Size(93, 20);
+            this.txtHuella.Size = new System.Drawing.Size(120, 20);
             this.txtHuella.TabIndex = 3;
             // 
             // label1
@@ -79,15 +81,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(196, 69);
+            this.label2.Location = new System.Drawing.Point(14, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Huella";
-            // 
-            // huellaBdBindingSource
-            // 
-            this.huellaBdBindingSource.DataSource = typeof(Entidades.OperadorHString);
             // 
             // btnCancelar
             // 
@@ -102,7 +100,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 69);
+            this.label3.Location = new System.Drawing.Point(192, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 13);
             this.label3.TabIndex = 8;
@@ -110,16 +108,43 @@
             // 
             // txtCodOperador
             // 
-            this.txtCodOperador.Location = new System.Drawing.Point(91, 66);
+            this.txtCodOperador.Location = new System.Drawing.Point(269, 24);
             this.txtCodOperador.Name = "txtCodOperador";
-            this.txtCodOperador.Size = new System.Drawing.Size(84, 20);
+            this.txtCodOperador.Size = new System.Drawing.Size(101, 20);
             this.txtCodOperador.TabIndex = 7;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(225, 69);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(37, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Status";
+            // 
+            // cbStatus
+            // 
+            this.cbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbStatus.FormattingEnabled = true;
+            this.cbStatus.Items.AddRange(new object[] {
+            "Activo",
+            "Inactivo"});
+            this.cbStatus.Location = new System.Drawing.Point(268, 66);
+            this.cbStatus.Name = "cbStatus";
+            this.cbStatus.Size = new System.Drawing.Size(102, 21);
+            this.cbStatus.TabIndex = 11;
+            // 
+            // huellaBdBindingSource
+            // 
+            this.huellaBdBindingSource.DataSource = typeof(Entidades.Operador);
             // 
             // fmrRegistrar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(348, 138);
+            this.ClientSize = new System.Drawing.Size(392, 138);
+            this.Controls.Add(this.cbStatus);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtCodOperador);
             this.Controls.Add(this.btnCancelar);
@@ -147,5 +172,7 @@
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtCodOperador;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cbStatus;
     }
 }

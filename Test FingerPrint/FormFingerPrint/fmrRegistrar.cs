@@ -13,6 +13,7 @@ namespace FormFingerPrint
         string mensaje;
         string nombre;
         string codOperador;
+        string status;
         Fmd result;
         Funciones funciones = new Funciones();
         Form_Main form_Main = new Form_Main();
@@ -43,11 +44,24 @@ namespace FormFingerPrint
         {
             nombre = txtNombre.Text;
             codOperador = txtCodOperador.Text;
+            status = cbStatus.Text;
 
-            mensaje = funciones.CrearOperador(result, codOperador, nombre);            
-            MessageBox.Show(mensaje);
-            this.Close();
+            if (string.IsNullOrEmpty(codOperador))
+            {
+                MessageBox.Show("Debe agregar un codigo de operador valido.");              
+            }
 
+            else if (string.IsNullOrEmpty(status))
+            {
+                MessageBox.Show("Debe seleccionar un status al operador.");
+            }
+
+            else
+            {
+                mensaje = funciones.CrearOperador(result, codOperador, nombre, status);
+                MessageBox.Show(mensaje);
+                this.Close();
+            }           
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

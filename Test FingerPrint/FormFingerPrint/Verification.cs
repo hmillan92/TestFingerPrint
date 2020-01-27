@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DPUruNet;
+using Entidades;
 using FuncionesLogicas;
 
 namespace UareUSampleCSharp
@@ -17,7 +18,7 @@ namespace UareUSampleCSharp
         private Fmd firstFinger;
         private Fmd secondFinger;
         private int count;
-        private string codOperador;
+        private Operador OperadorEncontrado = new Operador();
         Funciones funciones = new Funciones();
 
 
@@ -76,11 +77,11 @@ namespace UareUSampleCSharp
 
                     firstFinger = resultConversion.Data;
                         
-                    codOperador = funciones.CompararHuella(firstFinger, secondFinger);
+                    OperadorEncontrado = funciones.CompararHuella(firstFinger, secondFinger);
 
-                    if (codOperador != "null")
+                    if (OperadorEncontrado.IdOperador != 0)
                     {
-                        SendMessage(Action.SendMessage, "Huella coincide con operador " + codOperador);
+                        SendMessage(Action.SendMessage, "Huella coincide con operador " + OperadorEncontrado.Nombre+ " y su status es "+ OperadorEncontrado.Status);
                         SendMessage(Action.SendMessage, "Place a finger on the reader.");
                     }
 
