@@ -165,15 +165,25 @@ namespace UareUSampleCSharp
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-
             if (result != null)
             {
                 string mensaje = oHelper.Mensaje2;               
                 fmrRegistrar registrar = new fmrRegistrar(mensaje, result.Data);
                 this.Close();
                 registrar.ShowDialog();               
+            }         
+        }
+
+        
+        private void Enrollment_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+            DialogResult dr = MessageBox.Show("Desea cancelar esta operacion?", "Pesaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dr == DialogResult.No)
+            {
+                e.Cancel = true;
             }
-          
         }
     }
 }

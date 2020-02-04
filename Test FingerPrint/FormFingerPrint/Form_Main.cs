@@ -342,11 +342,6 @@ namespace UareUSampleCSharp
         }
         #endregion
 
-        private void Form_Main_Load(object sender, EventArgs e)
-        {
 
-        }
-
-       
     }
 }

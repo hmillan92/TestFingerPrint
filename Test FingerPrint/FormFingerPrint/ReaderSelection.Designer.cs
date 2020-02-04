@@ -52,7 +52,7 @@
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(115, 23);
             this.btnSelect.TabIndex = 17;
-            this.btnSelect.Text = "Select";
+            this.btnSelect.Text = "Seleccionar";
             this.btnSelect.Click += new System.EventHandler(this.btnReaderSelect_Click);
             // 
             // btnCaps
@@ -62,7 +62,7 @@
             this.btnCaps.Name = "btnCaps";
             this.btnCaps.Size = new System.Drawing.Size(115, 23);
             this.btnCaps.TabIndex = 16;
-            this.btnCaps.Text = "Capabilities";
+            this.btnCaps.Text = "Capaciddades";
             this.btnCaps.Click += new System.EventHandler(this.btnCaps_Click);
             // 
             // btnRefresh
@@ -71,15 +71,15 @@
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(115, 23);
             this.btnRefresh.TabIndex = 15;
-            this.btnRefresh.Text = "Refresh List";
+            this.btnRefresh.Text = "Refresh";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // cboReaders
             // 
-            this.cboReaders.Font = new System.Drawing.Font("Tahoma", 8.0F, System.Drawing.FontStyle.Regular);
+            this.cboReaders.Font = new System.Drawing.Font("Tahoma", 8F);
             this.cboReaders.Location = new System.Drawing.Point(12, 25);
             this.cboReaders.Name = "cboReaders";
-            this.cboReaders.Size = new System.Drawing.Size(256, 20);
+            this.cboReaders.Size = new System.Drawing.Size(256, 21);
             this.cboReaders.TabIndex = 14;
             // 
             // lblSelectReader
@@ -88,12 +88,12 @@
             this.lblSelectReader.Name = "lblSelectReader";
             this.lblSelectReader.Size = new System.Drawing.Size(296, 13);
             this.lblSelectReader.TabIndex = 13;
-            this.lblSelectReader.Text = "Select Reader:";
+            this.lblSelectReader.Text = "Seleccionar Lector:";
             // 
             // ReaderSelection
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(292, 109);
+            this.ClientSize = new System.Drawing.Size(296, 120);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.btnCaps);
@@ -101,15 +101,12 @@
             this.Controls.Add(this.cboReaders);
             this.Controls.Add(this.lblSelectReader);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(312, 159);
             this.MinimizeBox = false;
-#if !WindowsCE
-        this.MaximumSize = new System.Drawing.Size(312, 159);
-        this.MinimumSize = new System.Drawing.Size(312, 159);
-        this.ClientSize = new System.Drawing.Size(312, 159);
-        this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-#endif
-            this.Name = "Select Reader";
-            this.Text = "Select Reader";
+            this.MinimumSize = new System.Drawing.Size(312, 159);
+            this.Name = "ReaderSelection";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Pesaje | Seleccionar Lector";
             this.Load += new System.EventHandler(this.ReaderSelection_Load);
             this.ResumeLayout(false);
 

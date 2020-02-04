@@ -14,7 +14,7 @@ namespace FuncionesLogicas
 
         #endregion
 
-        #region Mensajes
+        #region Mensajes de Consola
         public string Mensaje1 = "Coloque su huella sobre el lector...";
 
         public string Mensaje2 = "Huella capturada.";
@@ -27,5 +27,6 @@ namespace FuncionesLogicas
 
         public string Error = "Error:  ";
         #endregion
+
     }
 }

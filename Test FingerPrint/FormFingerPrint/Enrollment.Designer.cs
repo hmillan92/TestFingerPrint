@@ -35,7 +35,7 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(276, 229);
+            this.btnBack.Location = new System.Drawing.Point(276, 238);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
             this.btnBack.TabIndex = 6;
@@ -44,7 +44,7 @@
             // 
             // txtEnroll
             // 
-            this.txtEnroll.Location = new System.Drawing.Point(12, 10);
+            this.txtEnroll.Location = new System.Drawing.Point(12, 16);
             this.txtEnroll.Multiline = true;
             this.txtEnroll.Name = "txtEnroll";
             this.txtEnroll.Size = new System.Drawing.Size(339, 213);
@@ -53,7 +53,7 @@
             // btnAceptar
             // 
             this.btnAceptar.Enabled = false;
-            this.btnAceptar.Location = new System.Drawing.Point(195, 229);
+            this.btnAceptar.Location = new System.Drawing.Point(195, 238);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 7;
@@ -74,8 +74,9 @@
             this.MinimumSize = new System.Drawing.Size(374, 312);
             this.Name = "Enrollment";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Enrollment";
+            this.Text = "Pesaje | Registrar Huella";
             this.Closed += new System.EventHandler(this.Enrollment_Closed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Enrollment_FormClosing);
             this.Load += new System.EventHandler(this.Enrollment_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

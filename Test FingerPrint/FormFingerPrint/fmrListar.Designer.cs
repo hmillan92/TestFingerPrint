@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvListar = new System.Windows.Forms.DataGridView();
-            this.huellaBdBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnBack = new System.Windows.Forms.Button();
             this.CodOperador = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.huellaBdBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnBack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.huellaBdBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -60,6 +60,27 @@
             this.dgvListar.Size = new System.Drawing.Size(306, 161);
             this.dgvListar.TabIndex = 0;
             // 
+            // CodOperador
+            // 
+            this.CodOperador.DataPropertyName = "CodOperador";
+            this.CodOperador.HeaderText = "CodOperador";
+            this.CodOperador.Name = "CodOperador";
+            this.CodOperador.ReadOnly = true;
+            // 
+            // nombreDataGridViewTextBoxColumn
+            // 
+            this.nombreDataGridViewTextBoxColumn.DataPropertyName = "Nombre";
+            this.nombreDataGridViewTextBoxColumn.HeaderText = "Nombre";
+            this.nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
+            this.nombreDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // Status
+            // 
+            this.Status.DataPropertyName = "Status";
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            // 
             // huellaBdBindingSource
             // 
             this.huellaBdBindingSource.DataSource = typeof(Entidades.Operador);
@@ -82,27 +103,6 @@
             this.btnBack.Text = "Back";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
-            // CodOperador
-            // 
-            this.CodOperador.DataPropertyName = "CodOperador";
-            this.CodOperador.HeaderText = "CodOperador";
-            this.CodOperador.Name = "CodOperador";
-            this.CodOperador.ReadOnly = true;
-            // 
-            // nombreDataGridViewTextBoxColumn
-            // 
-            this.nombreDataGridViewTextBoxColumn.DataPropertyName = "Nombre";
-            this.nombreDataGridViewTextBoxColumn.HeaderText = "Nombre";
-            this.nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
-            this.nombreDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // Status
-            // 
-            this.Status.DataPropertyName = "Status";
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
-            // 
             // fmrListar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -112,6 +112,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvListar);
             this.Name = "fmrListar";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Listar";
             this.Load += new System.EventHandler(this.fmrListar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvListar)).EndInit();

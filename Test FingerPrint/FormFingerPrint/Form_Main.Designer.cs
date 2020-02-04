@@ -52,7 +52,7 @@
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(236, 15);
             this.Label1.TabIndex = 18;
-            this.Label1.Text = "Selected Reader:";
+            this.Label1.Text = "Lector Seleccionado:";
             // 
             // btnReaderSelect
             // 
@@ -60,7 +60,7 @@
             this.btnReaderSelect.Name = "btnReaderSelect";
             this.btnReaderSelect.Size = new System.Drawing.Size(233, 23);
             this.btnReaderSelect.TabIndex = 8;
-            this.btnReaderSelect.Text = "Reader Selection";
+            this.btnReaderSelect.Text = "Seleccionar Lector";
             this.btnReaderSelect.Click += new System.EventHandler(this.btnReaderSelect_Click);
             // 
             // btnConectar
@@ -81,7 +81,7 @@
             this.btnListar.Name = "btnListar";
             this.btnListar.Size = new System.Drawing.Size(115, 23);
             this.btnListar.TabIndex = 20;
-            this.btnListar.Text = "Listar";
+            this.btnListar.Text = "Listar Operadores";
             this.btnListar.UseVisualStyleBackColor = true;
             this.btnListar.Click += new System.EventHandler(this.btnListar_Click);
             // 
@@ -92,7 +92,7 @@
             this.btnEnroll.Name = "btnEnroll";
             this.btnEnroll.Size = new System.Drawing.Size(112, 23);
             this.btnEnroll.TabIndex = 24;
-            this.btnEnroll.Text = "Registrar";
+            this.btnEnroll.Text = "Registrar Huella";
             this.btnEnroll.Click += new System.EventHandler(this.btnEnroll_Click);
             // 
             // btnVerify
@@ -108,7 +108,7 @@
             // Form_Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(257, 163);
+            this.ClientSize = new System.Drawing.Size(257, 168);
             this.Controls.Add(this.btnEnroll);
             this.Controls.Add(this.btnVerify);
             this.Controls.Add(this.btnConectar);
@@ -119,9 +119,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form_Main";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "U.are.U Sample C#";
-            this.Load += new System.EventHandler(this.Form_Main_Load);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Pesaje";
             this.ResumeLayout(false);
             this.PerformLayout();
 
