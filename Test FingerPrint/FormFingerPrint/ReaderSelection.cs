@@ -59,6 +59,7 @@ namespace UareUSampleCSharp
                 {
                     btnSelect.Enabled = false;
                     btnCaps.Enabled = false;
+                    MessageBox.Show("Lector no detectado, verifique conexion del lector de huella.", "Pesaje", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)

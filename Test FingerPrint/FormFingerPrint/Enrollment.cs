@@ -169,8 +169,9 @@ namespace UareUSampleCSharp
             {
                 string mensaje = oHelper.Mensaje2;               
                 fmrRegistrar registrar = new fmrRegistrar(mensaje, result.Data);
+                //this.Close();
+                registrar.ShowDialog();
                 this.Close();
-                registrar.ShowDialog();               
             }         
         }
 
