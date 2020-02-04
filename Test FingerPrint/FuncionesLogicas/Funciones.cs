@@ -29,7 +29,7 @@ namespace FuncionesLogicas
             string Mensaje;
             string huellaConvertida;
 
-            oOperador = CompararHuella(presult, presult);
+            oOperador = CompararHuella(presult);
 
             if (oOperador.IdOperador == 0)
             {
@@ -52,70 +52,48 @@ namespace FuncionesLogicas
             return Mensaje;
         }
 
-        public Operador CompararHuella(Fmd firstF, Fmd secondF)
-        {
-            ///Añadimos el parametro firstF a firstFinger un objeto de tipo Fmd que sera el objeto de la huella capturada
-            Fmd firstFinger = firstF;
-            
-            ///creamos el segundo objeto de tipo Fmd y le pasamos los parametros que pide el constructor de esa clase, los parametros son tomados del objeto 1
-            ///se hace esto porque la propiedad bytes de un mismo objeto al ser cambiada en una variable, se cambia en todas las demas como si fuese una variable estatica
-            ///y necesitamos resetear solo los bytes para poder asignarle los bytes que se encuentran en la BD al objeto 2 para compararlas 
-            ///solo necesitamos cambiar los bytes porque los otros parametros que pide el constructor y que el toma del objeto 1 no los vamos a necesitar para hacer la comparacion.
-            Fmd secondFinger = new Fmd(firstFinger.Bytes, oHelper.Format , oHelper.Version);
-
-            int count = 0;
-            int idOp = 0;
-            string codOp = string.Empty;
-            string nombreOp = string.Empty;
-            string statusOP = string.Empty;
-            
-            List<Operador> ListaHuellas = transaccion.ListarHuellas();
-
-            ///un foreach para capturar los valores de cada registro
-            foreach (var item in ListaHuellas)
-            {
-
-                ///los bytes que estan registrados en la BD son de tipo Base64 que es un varchar(max), le pasamos ese string al metodo convert
-                ///para que nos convierta de nuevo a bytes y se la asignamos a la variable huellaConvertida
-                byte[] huellaConvertida = Convert.FromBase64String(item.Huella);
-
-                //le asignamos los bytes de huellaConvertida que representan los bytes que estan en la BD a la propiedad Bytes del objeto secondFinger para asi poder hacer la comparacion con el obj 1 que es la huella capturada
-                secondFinger.Bytes = huellaConvertida;
-
-                ///Una vez listo los 2 objetos a comparar se lo mandamos al metodo Compare de la clase Comparision, nos devolvera un objeto de tipo CompareResult
-                ///Este objeto compareResult tendra una propiedad que se llama Score que es el puntaje que necesitaremos para ver si ambas huellas tienen similitud
-                CompareResult compareResult = Comparison.Compare(firstFinger, 0, secondFinger, 0);
-                
-                //preguntamos si el Score es menor a la operacion establecida en el if, si el resultado es true entonces ambas huellas tienen similitud
-                if (compareResult.Score < (PROBABILITY_ONE / 100000))
-                {
-                    count++;
-                    idOp = item.IdOperador;
-                    codOp = item.CodOperador;
-                    nombreOp = item.Nombre;
-                    statusOP = item.Status;
-
-                }
-            }
-
-            Operador operadorEncontrado = new Operador();
-            if (count > 0)
-            {
-                operadorEncontrado = new Operador();
-                operadorEncontrado.IdOperador = idOp;
-                operadorEncontrado.CodOperador = codOp;
-                operadorEncontrado.Nombre = nombreOp;
-                operadorEncontrado.Status = statusOP;
-            }
-           
-            return operadorEncontrado;
-        }
 
         public List<Operador> ListarHuellas()
         {
             List<Operador> listarOp = transaccion.ListarHuellas();
 
             return listarOp;
+        }
+
+
+        public Operador CompararHuella(Fmd pFirstFinger)
+        {
+            ///Añadimos el parametro firstF a firstFinger un objeto de tipo Fmd que sera el objeto de la huella capturada
+            Fmd firstFinger = pFirstFinger;
+
+            List<Operador> listaOp = transaccion.ListarHuellas();
+            Operador opEncontrado = null;
+
+            ///un foreach para capturar los valores de cada registro en la BD
+            foreach (var item in listaOp)
+            {
+                byte[] huellaConvertida = Convert.FromBase64String(item.Huella);
+
+                Fmd secondFinger = new Fmd(huellaConvertida, oHelper.Format, oHelper.Version);
+
+                ///Una vez listo los 2 objetos a comparar se lo mandamos al metodo Compare de la clase Comparision, nos devolvera un objeto de tipo CompareResult
+                ///Este objeto compareResult tendra una propiedad que se llama Score que es el puntaje que necesitaremos para ver si ambas huellas tienen similitud
+                CompareResult compareResult = Comparison.Compare(firstFinger, 0, secondFinger, 0);
+
+                ///preguntamos si el Score es menor a la operacion establecida en el if, si el resultado es true entonces ambas huellas tienen similitud
+                ///y asigna los valores al obj operador, si no lo retorna nulo
+                if (compareResult.Score < (PROBABILITY_ONE / 100000))
+                {
+                    opEncontrado = new Operador();
+
+                    opEncontrado.IdOperador = item.IdOperador;
+                    opEncontrado.CodOperador = item.CodOperador;
+                    opEncontrado.Nombre = item.Nombre;
+                    opEncontrado.Status = item.Status;
+                }
+            }
+
+            return opEncontrado;
         }
     }
 }

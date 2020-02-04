@@ -16,7 +16,6 @@ namespace UareUSampleCSharp
 
         private const int PROBABILITY_ONE = 0x7fffffff;
         private Fmd firstFinger;
-        private Fmd secondFinger;
         private int count;
         private Operador OperadorEncontrado = new Operador();
         Funciones funciones = new Funciones();
@@ -37,7 +36,6 @@ namespace UareUSampleCSharp
         {
             txtVerify.Text = string.Empty;
             firstFinger = null;
-            secondFinger = null;
             count = 0;
 
             SendMessage(Action.SendMessage, oHelper.Mensaje1);
@@ -78,9 +76,9 @@ namespace UareUSampleCSharp
 
                     firstFinger = resultConversion.Data;
                         
-                    OperadorEncontrado = funciones.CompararHuella(firstFinger, secondFinger);
+                    OperadorEncontrado = funciones.CompararHuella(firstFinger);
 
-                    if (OperadorEncontrado.IdOperador != 0)
+                    if (OperadorEncontrado != null)
                     {
                         SendMessage(Action.SendMessage, "Huella coincide con operador " + OperadorEncontrado.Nombre+ " y su status es "+ OperadorEncontrado.Status);
                         SendMessage(Action.SendMessage, oHelper.Mensaje1);

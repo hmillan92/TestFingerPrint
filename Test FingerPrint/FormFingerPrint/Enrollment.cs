@@ -89,6 +89,11 @@ namespace UareUSampleCSharp
                     {                       
                         SendMessage(Action.SendMessage, oHelper.Mensaje3);                      
                         result = resultEnrollment;
+
+                        //comparar antes de ir al siguiente form
+                        //funciones.CompararHuella(result.Data, result.Data);
+
+                        //si no existe avanzar, si existe mandar mensaje
                         btnAceptar.Enabled = true;                       
                         preenrollmentFmds.Clear();
                         count = 0;                       

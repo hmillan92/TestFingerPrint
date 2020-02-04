@@ -8,7 +8,7 @@ namespace FuncionesLogicas
 {
     public class Helper
     {
-        #region Constantes
+        #region Constantes FMD
         public int Format = 1769473;
         public string Version = "1.0.0";
 
