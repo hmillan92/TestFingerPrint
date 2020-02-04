@@ -175,15 +175,15 @@ namespace UareUSampleCSharp
         }
 
         
-        private void Enrollment_FormClosing(object sender, FormClosingEventArgs e)
-        {
+        //private void Enrollment_FormClosing(object sender, FormClosingEventArgs e)
+        //{
 
-            DialogResult dr = MessageBox.Show("Desea cancelar esta operacion?", "Pesaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        //    DialogResult dr = MessageBox.Show("Desea cancelar esta operacion?", "Pesaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (dr == DialogResult.No)
-            {
-                e.Cancel = true;
-            }
-        }
+        //    if (dr == DialogResult.No)
+        //    {
+        //        e.Cancel = true;
+        //    }
+        //}
     }
 }
