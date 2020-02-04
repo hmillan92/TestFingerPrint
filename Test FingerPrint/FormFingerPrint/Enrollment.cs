@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DPUruNet;
+using Entidades;
 using FormFingerPrint;
 using FuncionesLogicas;
 
@@ -87,14 +88,25 @@ namespace UareUSampleCSharp
 
                     if (resultEnrollment.ResultCode == Constants.ResultCode.DP_SUCCESS)
                     {                       
-                        SendMessage(Action.SendMessage, oHelper.Mensaje3);                      
+                                             
                         result = resultEnrollment;
 
                         //comparar antes de ir al siguiente form
-                        //funciones.CompararHuella(result.Data, result.Data);
+                        Operador oOperadores = funciones.CompararHuella(result.Data);
 
-                        //si no existe avanzar, si existe mandar mensaje
-                        btnAceptar.Enabled = true;                       
+                        if (oOperadores == null)
+                        {
+                            btnAceptar.Enabled = true;
+                            SendMessage(Action.SendMessage, oHelper.Mensaje3);
+                        }
+
+                        else
+                        {
+                            MessageBox.Show("Ya existe una huella con este registro", "Pesaje", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtEnroll.Clear();
+                            SendMessage(Action.SendMessage, oHelper.Mensaje1);
+                        }
+
                         preenrollmentFmds.Clear();
                         count = 0;                       
                         return;
