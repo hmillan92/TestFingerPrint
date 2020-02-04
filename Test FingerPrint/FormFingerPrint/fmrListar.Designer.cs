@@ -113,7 +113,7 @@
             this.Controls.Add(this.dgvListar);
             this.Name = "fmrListar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Listar";
+            this.Text = "Pesaje | Listar Operadores";
             this.Load += new System.EventHandler(this.fmrListar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvListar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.huellaBdBindingSource)).EndInit();

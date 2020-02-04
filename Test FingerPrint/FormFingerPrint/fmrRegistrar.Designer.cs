@@ -155,7 +155,7 @@
             this.Controls.Add(this.btnAgregar);
             this.Name = "fmrRegistrar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "fmrRegistrar";
+            this.Text = "Pesaje | Registrar Huella";
             this.Load += new System.EventHandler(this.fmrRegistrar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.huellaBdBindingSource)).EndInit();
             this.ResumeLayout(false);
