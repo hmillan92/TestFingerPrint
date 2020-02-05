@@ -38,7 +38,7 @@ namespace UareUSampleCSharp
             firstFinger = null;
             count = 0;
 
-            SendMessage(Action.SendMessage, oHelper.Mensaje1);
+            SendMessage(Action.SendMessage, oHelper.ColocarHuella);
 
             if (!_sender.OpenReader())
             {
@@ -62,7 +62,7 @@ namespace UareUSampleCSharp
                 // Check capture quality and throw an error if bad.
                 if (!_sender.CheckCaptureResult(captureResult)) return;
 
-                SendMessage(Action.SendMessage, oHelper.Mensaje2);
+                SendMessage(Action.SendMessage, oHelper.HuellaCapturada);
 
                 DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
                 if (resultConversion.ResultCode != Constants.ResultCode.DP_SUCCESS)
@@ -75,22 +75,34 @@ namespace UareUSampleCSharp
                 {
 
                     firstFinger = resultConversion.Data;
-                        
-                    OperadorEncontrado = funciones.CompararHuella(firstFinger);
 
-                    if (OperadorEncontrado != null)
+                    bool conexion = funciones.ValidaConexionSQL();
+
+                    if (conexion)
                     {
-                        SendMessage(Action.SendMessage, "Huella coincide con operador " + OperadorEncontrado.Nombre+ " y su status es "+ OperadorEncontrado.Status);
-                        SendMessage(Action.SendMessage, oHelper.Mensaje1);
+                        OperadorEncontrado = funciones.CompararHuella(firstFinger);
+
+                        if (OperadorEncontrado != null)
+                        {
+                            SendMessage(Action.SendMessage, "Huella coincide con operador " + OperadorEncontrado.Nombre + " y su status es " + OperadorEncontrado.Status);
+                            SendMessage(Action.SendMessage, oHelper.ColocarHuella);
+                        }
+
+                        else
+                        {
+                            SendMessage(Action.SendMessage, oHelper.HuellaNoEncontrada);
+                            SendMessage(Action.SendMessage, oHelper.ColocarHuella);
+                        }
+
+                        count = 0;
                     }
 
                     else
                     {
-                        SendMessage(Action.SendMessage, oHelper.Mensaje5);
-                        SendMessage(Action.SendMessage, oHelper.Mensaje1);
+                        MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.Close();
                     }
                     
-                    count = 0;
                 }
             }
             catch (Exception ex)

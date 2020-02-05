@@ -15,6 +15,7 @@ namespace FuncionesLogicas
         DBTrasaccion transaccion = new DBTrasaccion();
         Helper oHelper = new Helper();
         private const int PROBABILITY_ONE = 0x7fffffff;
+        bool conexion;
               
 
         public bool ValidaConexionSQL()
@@ -27,27 +28,37 @@ namespace FuncionesLogicas
         {
             Operador oOperador;
             string Mensaje;
-            string huellaConvertida;
 
-            oOperador = CompararHuella(presult);
+            conexion = ValidaConexionSQL();
 
-            if (oOperador.IdOperador == 0)
+            if (conexion)
             {
-                huellaConvertida = Convert.ToBase64String(presult.Bytes);
+                oOperador = CompararHuella(presult);
 
-                oOperador = new Operador();
-                oOperador.CodOperador = pcodOperador;
-                oOperador.Nombre = pnombre;
-                oOperador.Huella = huellaConvertida;
-                oOperador.Status = pstatus;
+                if (oOperador == null)
+                {
+                    string huellaString = Convert.ToBase64String(presult.Bytes);
 
-                Mensaje = transaccion.CrearOperador(oOperador);
+                    oOperador = new Operador();
+                    oOperador.CodOperador = pcodOperador;
+                    oOperador.Nombre = pnombre;
+                    oOperador.Huella = huellaString;
+                    oOperador.Status = pstatus;
+
+                    Mensaje = transaccion.CrearOperador(oOperador);
+                }
+
+                else
+                {
+                    Mensaje = "Ya existe un operador registrado con esta huella";
+                }
             }
 
             else
             {
-                Mensaje = "Ya existe un operador registrado con esta huella";
+                Mensaje = "Error al conectar con el servidor";
             }
+            
           
             return Mensaje;
         }
@@ -63,36 +74,41 @@ namespace FuncionesLogicas
 
         public Operador CompararHuella(Fmd pFirstFinger)
         {
-            ///Añadimos el parametro firstF a firstFinger un objeto de tipo Fmd que sera el objeto de la huella capturada
-            Fmd firstFinger = pFirstFinger;
-
-            List<Operador> listaOp = transaccion.ListarHuellas();
             Operador opEncontrado = null;
-
-            ///un foreach para capturar los valores de cada registro en la BD
-            foreach (var item in listaOp)
+            conexion = ValidaConexionSQL();
+            if (conexion)
             {
-                byte[] huellaConvertida = Convert.FromBase64String(item.Huella);
+                ///Añadimos el parametro firstF a firstFinger un objeto de tipo Fmd que sera el objeto de la huella capturada
+                Fmd firstFinger = pFirstFinger;
 
-                Fmd secondFinger = new Fmd(huellaConvertida, oHelper.Format, oHelper.Version);
+                List<Operador> listaOp = transaccion.ListarHuellas();
 
-                ///Una vez listo los 2 objetos a comparar se lo mandamos al metodo Compare de la clase Comparision, nos devolvera un objeto de tipo CompareResult
-                ///Este objeto compareResult tendra una propiedad que se llama Score que es el puntaje que necesitaremos para ver si ambas huellas tienen similitud
-                CompareResult compareResult = Comparison.Compare(firstFinger, 0, secondFinger, 0);
 
-                ///preguntamos si el Score es menor a la operacion establecida en el if, si el resultado es true entonces ambas huellas tienen similitud
-                ///y asigna los valores al obj operador, si no lo retorna nulo
-                if (compareResult.Score < (PROBABILITY_ONE / 100000))
+                ///un foreach para capturar los valores de cada registro en la BD
+                foreach (var item in listaOp)
                 {
-                    opEncontrado = new Operador();
+                    byte[] huellaConvertida = Convert.FromBase64String(item.Huella);
 
-                    opEncontrado.IdOperador = item.IdOperador;
-                    opEncontrado.CodOperador = item.CodOperador;
-                    opEncontrado.Nombre = item.Nombre;
-                    opEncontrado.Status = item.Status;
+                    Fmd secondFinger = new Fmd(huellaConvertida, oHelper.Format, oHelper.Version);
+
+                    ///Una vez listo los 2 objetos a comparar se lo mandamos al metodo Compare de la clase Comparision, nos devolvera un objeto de tipo CompareResult
+                    ///Este objeto compareResult tendra una propiedad que se llama Score que es el puntaje que necesitaremos para ver si ambas huellas tienen similitud
+                    CompareResult compareResult = Comparison.Compare(firstFinger, 0, secondFinger, 0);
+
+                    ///preguntamos si el Score es menor a la operacion establecida en el if, si el resultado es true entonces ambas huellas tienen similitud
+                    ///y asigna los valores al obj operador, si no lo retorna nulo
+                    if (compareResult.Score < (PROBABILITY_ONE / 100000))
+                    {
+                        opEncontrado = new Operador();
+
+                        opEncontrado.IdOperador = item.IdOperador;
+                        opEncontrado.CodOperador = item.CodOperador;
+                        opEncontrado.Nombre = item.Nombre;
+                        opEncontrado.Status = item.Status;
+                    }
                 }
             }
-
+           
             return opEncontrado;
         }
     }

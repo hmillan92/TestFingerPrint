@@ -14,6 +14,9 @@ namespace UareUSampleCSharp
 {
     public partial class Form_Main : Form
     {
+        bool conexion = false;
+        private Funciones funciones = new Funciones();
+        private Helper oHelper = new Helper();
 
         /// <summary>
         /// Holds fmds enrolled by the enrollment GUI.
@@ -50,6 +53,7 @@ namespace UareUSampleCSharp
                 SendMessage(Action.UpdateReaderState, value);
             }
         }
+
         private Reader currentReader;
 
         #region Click Event Handlers
@@ -72,58 +76,63 @@ namespace UareUSampleCSharp
         private Verification _verification;
         private void btnVerify_Click(object sender, EventArgs e)
         {
-            if (_verification == null)
+            conexion = funciones.ValidaConexionSQL();
+            if (conexion)
             {
-                _verification = new Verification();
-                _verification._sender = this;
+                if (_verification == null)
+                {
+                    _verification = new Verification();
+                    _verification._sender = this;
+                }
+
+                _verification.ShowDialog();
+
+                _verification.Dispose();
+                _verification = null;
             }
 
-            _verification.ShowDialog();
-
-            _verification.Dispose();
-            _verification = null;
+            else
+            {
+                MessageBox.Show(oHelper.ErrorServidor);
+            }          
         }
 
 
         private Enrollment _enrollment;
         private void btnEnroll_Click(object sender, EventArgs e)
         {
-            if (_enrollment == null)
+            conexion = funciones.ValidaConexionSQL();
+            if (conexion)
             {
-                _enrollment = new Enrollment();
-                _enrollment._sender = this;
-            }
-            
-            _enrollment.ShowDialog();
-        }
+                if (_enrollment == null)
+                {
+                    _enrollment = new Enrollment();
+                    _enrollment._sender = this;
+                }
 
-        private void btnRegistrar_Click(object sender, EventArgs e)
-        {
-            fmrRegistrar FormRegistrar = new fmrRegistrar();
-            FormRegistrar.ShowDialog();
-        }
-
-        private void btnConectar_Click(object sender, EventArgs e)
-        {
-            bool msj;
-            Funciones funciones = new Funciones();
-            msj = funciones.ValidaConexionSQL();
-
-            if (msj != true)
-            {
-                MessageBox.Show("Error al Conectar");
+                _enrollment.ShowDialog();
             }
 
             else
             {
-                MessageBox.Show("Conectado!");
+                MessageBox.Show(oHelper.ErrorServidor);
             }
         }
 
+
         private void btnListar_Click(object sender, EventArgs e)
         {
-            fmrListar formListar = new fmrListar();
-            formListar.ShowDialog();
+            conexion = funciones.ValidaConexionSQL();
+            if (conexion)
+            {
+                fmrListar formListar = new fmrListar();
+                formListar.ShowDialog();
+            }
+
+            else
+            {
+                MessageBox.Show(oHelper.ErrorServidor);
+            }
         }
 
         #endregion
@@ -263,7 +272,7 @@ namespace UareUSampleCSharp
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error:  " + ex.Message);
+                MessageBox.Show("Error:  " + ex.Message, oHelper.NombreSistema);
                 return false;
             }
         }
@@ -322,7 +331,6 @@ namespace UareUSampleCSharp
                         {
                             txtReaderSelected.Text = ((Reader)payload).Description.SerialNumber;                           
                             btnListar.Enabled = true;
-                            btnConectar.Enabled = true;
                             btnEnroll.Enabled = true;
                             btnVerify.Enabled = true;
                         }
@@ -330,7 +338,6 @@ namespace UareUSampleCSharp
                         {
                             txtReaderSelected.Text = String.Empty;
                             btnListar.Enabled = true;
-                            btnConectar.Enabled = true;
                             btnEnroll.Enabled = true;
                             btnVerify.Enabled = true;
                         }
@@ -340,8 +347,28 @@ namespace UareUSampleCSharp
                 }
             }
         }
+
         #endregion
 
+        private void Form_Main_Load(object sender, EventArgs e)
+        {
+            conexion = funciones.ValidaConexionSQL();
 
+            if (!conexion)
+            {
+                DialogResult MsjBoxServ = MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+
+                if (MsjBoxServ == DialogResult.Retry)
+                {
+                    Form_Main_Load(sender, e);
+                }
+
+                else if (MsjBoxServ == DialogResult.Cancel)
+                {
+                    this.Close();
+                }
+
+            }
+        }
     }
 }

@@ -76,7 +76,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pesaje | Registrar Huella";
             this.Closed += new System.EventHandler(this.Enrollment_Closed);
-            //this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Enrollment_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Enrollment_FormClosing);
             this.Load += new System.EventHandler(this.Enrollment_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

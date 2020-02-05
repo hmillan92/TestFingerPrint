@@ -15,17 +15,26 @@ namespace FuncionesLogicas
         #endregion
 
         #region Mensajes de Consola
-        public string Mensaje1 = "Coloque su huella sobre el lector...";
+        public string ColocarHuella = "Coloque su huella sobre el lector...";
 
-        public string Mensaje2 = "Huella capturada.";
+        public string HuellaCapturada = "Huella capturada.";
 
-        public string Mensaje3 = "FMD creado exitosamente.\r\nPulse siguiente para continuar o coloque huella para volver a capturar...";
+        public string FmdCreado = "Fmd creado exitosamente.\r\nPulse siguiente para continuar o coloque huella para volver a capturar...";
 
-        public string Mensaje4 = "El proceso de Enroll no fue exitoso. Inténtalo de nuevo.";
+        public string FmdError = "El proceso de Enroll no fue exitoso. Inténtalo de nuevo.";
 
-        public string Mensaje5 = "Huella no encontrada.";
+        public string HuellaNoEncontrada = "Huella no encontrada.";
+
+        public string ErrorServidor = "Error al conectar con el servidor, revise su conexion.";
+
+        public string HuellaExiste = "Ya existe un Operador con esta huella";
 
         public string Error = "Error:  ";
+        #endregion
+
+        #region Mensajes del Sistema
+
+        public string NombreSistema = "Pesaje";
         #endregion
 
     }

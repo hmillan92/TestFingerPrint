@@ -31,7 +31,6 @@
             this.txtReaderSelected = new System.Windows.Forms.TextBox();
             this.Label1 = new System.Windows.Forms.Label();
             this.btnReaderSelect = new System.Windows.Forms.Button();
-            this.btnConectar = new System.Windows.Forms.Button();
             this.btnListar = new System.Windows.Forms.Button();
             this.btnEnroll = new System.Windows.Forms.Button();
             this.btnVerify = new System.Windows.Forms.Button();
@@ -56,30 +55,19 @@
             // 
             // btnReaderSelect
             // 
-            this.btnReaderSelect.Location = new System.Drawing.Point(15, 53);
+            this.btnReaderSelect.Location = new System.Drawing.Point(12, 57);
             this.btnReaderSelect.Name = "btnReaderSelect";
-            this.btnReaderSelect.Size = new System.Drawing.Size(233, 23);
+            this.btnReaderSelect.Size = new System.Drawing.Size(112, 23);
             this.btnReaderSelect.TabIndex = 8;
             this.btnReaderSelect.Text = "Seleccionar Lector";
             this.btnReaderSelect.Click += new System.EventHandler(this.btnReaderSelect_Click);
             // 
-            // btnConectar
-            // 
-            this.btnConectar.Enabled = false;
-            this.btnConectar.Location = new System.Drawing.Point(136, 123);
-            this.btnConectar.Name = "btnConectar";
-            this.btnConectar.Size = new System.Drawing.Size(112, 23);
-            this.btnConectar.TabIndex = 21;
-            this.btnConectar.Text = "ConectarBd";
-            this.btnConectar.UseVisualStyleBackColor = true;
-            this.btnConectar.Click += new System.EventHandler(this.btnConectar_Click);
-            // 
             // btnListar
             // 
             this.btnListar.Enabled = false;
-            this.btnListar.Location = new System.Drawing.Point(12, 123);
+            this.btnListar.Location = new System.Drawing.Point(136, 86);
             this.btnListar.Name = "btnListar";
-            this.btnListar.Size = new System.Drawing.Size(115, 23);
+            this.btnListar.Size = new System.Drawing.Size(112, 23);
             this.btnListar.TabIndex = 20;
             this.btnListar.Text = "Listar Operadores";
             this.btnListar.UseVisualStyleBackColor = true;
@@ -88,7 +76,7 @@
             // btnEnroll
             // 
             this.btnEnroll.Enabled = false;
-            this.btnEnroll.Location = new System.Drawing.Point(136, 90);
+            this.btnEnroll.Location = new System.Drawing.Point(136, 57);
             this.btnEnroll.Name = "btnEnroll";
             this.btnEnroll.Size = new System.Drawing.Size(112, 23);
             this.btnEnroll.TabIndex = 24;
@@ -98,9 +86,9 @@
             // btnVerify
             // 
             this.btnVerify.Enabled = false;
-            this.btnVerify.Location = new System.Drawing.Point(12, 90);
+            this.btnVerify.Location = new System.Drawing.Point(12, 86);
             this.btnVerify.Name = "btnVerify";
-            this.btnVerify.Size = new System.Drawing.Size(115, 23);
+            this.btnVerify.Size = new System.Drawing.Size(112, 23);
             this.btnVerify.TabIndex = 23;
             this.btnVerify.Text = "Verificar Huella";
             this.btnVerify.Click += new System.EventHandler(this.btnVerify_Click);
@@ -108,10 +96,9 @@
             // Form_Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(257, 168);
+            this.ClientSize = new System.Drawing.Size(257, 122);
             this.Controls.Add(this.btnEnroll);
             this.Controls.Add(this.btnVerify);
-            this.Controls.Add(this.btnConectar);
             this.Controls.Add(this.btnListar);
             this.Controls.Add(this.txtReaderSelected);
             this.Controls.Add(this.Label1);
@@ -121,6 +108,7 @@
             this.Name = "Form_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pesaje";
+            this.Load += new System.EventHandler(this.Form_Main_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,7 +119,6 @@
         internal System.Windows.Forms.TextBox txtReaderSelected;
         internal System.Windows.Forms.Label Label1;
         internal System.Windows.Forms.Button btnReaderSelect;
-        private System.Windows.Forms.Button btnConectar;
         private System.Windows.Forms.Button btnListar;
         public System.Windows.Forms.Button btnEnroll;
         internal System.Windows.Forms.Button btnVerify;

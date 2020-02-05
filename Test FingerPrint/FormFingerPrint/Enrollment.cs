@@ -17,6 +17,8 @@ namespace UareUSampleCSharp
         List<Fmd> preenrollmentFmds;
         Helper oHelper = new Helper();
         int count;
+        bool conexion;
+        bool switche = false;
 
         Funciones funciones = new Funciones();
         DataResult<Fmd> result;
@@ -40,7 +42,7 @@ namespace UareUSampleCSharp
             preenrollmentFmds.Clear();
             count = 0;
             
-            SendMessage(Action.SendMessage, oHelper.Mensaje1);
+            SendMessage(Action.SendMessage, oHelper.ColocarHuella);
 
             if (!_sender.OpenReader())
             {
@@ -67,60 +69,82 @@ namespace UareUSampleCSharp
                 count++;
                 result = null;
                 btnAceptar.Enabled = false;
-
-                DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
-
-                txtEnroll.Clear();
-
-                SendMessage(Action.SendMessage, oHelper.Mensaje2  +"\r\nCount: "   + (count)+"/4");
-
-                if (resultConversion.ResultCode != Constants.ResultCode.DP_SUCCESS)
+                switche = true;
+                conexion = funciones.ValidaConexionSQL();
+                if (conexion)
                 {
-                    _sender.Reset = true;
-                    throw new Exception(resultConversion.ResultCode.ToString());
+                    DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
+
+                    txtEnroll.Clear();
+
+                    SendMessage(Action.SendMessage, oHelper.HuellaCapturada + "\r\nCount: " + (count) + "/4");
+
+                    if (resultConversion.ResultCode != Constants.ResultCode.DP_SUCCESS)
+                    {
+                        _sender.Reset = true;
+                        throw new Exception(resultConversion.ResultCode.ToString());
+                    }
+
+                    preenrollmentFmds.Add(resultConversion.Data);
+
+                    if (count >= 4)
+                    {
+                        DataResult<Fmd> resultEnrollment = DPUruNet.Enrollment.CreateEnrollmentFmd(Constants.Formats.Fmd.ANSI, preenrollmentFmds);
+
+                        if (resultEnrollment.ResultCode == Constants.ResultCode.DP_SUCCESS)
+                        {
+
+                            result = resultEnrollment;
+                            conexion = funciones.ValidaConexionSQL();
+                            if (conexion)
+                            {
+                                Operador oOperadores = funciones.CompararHuella(result.Data);
+
+                                if (oOperadores == null)
+                                {
+                                    switche = false;
+                                    btnAceptar.Enabled = true;
+                                    btnAceptar.PerformClick();
+                                }
+
+                                else
+                                {
+                                    switche = false;
+                                    MessageBox.Show(oHelper.HuellaExiste, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    txtEnroll.Clear();
+                                    SendMessage(Action.SendMessage, oHelper.ColocarHuella);
+                                }
+                            }
+
+                            else
+                            {
+                                MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                txtEnroll.Clear();
+                                SendMessage(Action.SendMessage, oHelper.ColocarHuella);
+                            }
+
+
+                            preenrollmentFmds.Clear();
+                            count = 0;
+                            return;
+                        }
+
+
+                        else if (resultEnrollment.ResultCode == Constants.ResultCode.DP_ENROLLMENT_INVALID_SET)
+                        {
+                            SendMessage(Action.SendMessage, oHelper.FmdError);
+                            SendMessage(Action.SendMessage, oHelper.ColocarHuella);
+                            preenrollmentFmds.Clear();
+                            count = 0;
+                            return;
+                        }
+                    }
                 }
 
-                preenrollmentFmds.Add(resultConversion.Data);
-
-                if (count >= 4)
-                {                  
-                    DataResult<Fmd> resultEnrollment = DPUruNet.Enrollment.CreateEnrollmentFmd(Constants.Formats.Fmd.ANSI, preenrollmentFmds);
-
-                    if (resultEnrollment.ResultCode == Constants.ResultCode.DP_SUCCESS)
-                    {                       
-                                             
-                        result = resultEnrollment;
-
-                        //comparar antes de ir al siguiente form
-                        Operador oOperadores = funciones.CompararHuella(result.Data);
-
-                        if (oOperadores == null)
-                        {
-                            btnAceptar.Enabled = true;
-                            SendMessage(Action.SendMessage, oHelper.Mensaje3);
-                        }
-
-                        else
-                        {
-                            MessageBox.Show("Ya existe una huella con este registro", "Pesaje", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtEnroll.Clear();
-                            SendMessage(Action.SendMessage, oHelper.Mensaje1);
-                        }
-
-                        preenrollmentFmds.Clear();
-                        count = 0;                       
-                        return;
-                    }
-
-                    
-                    else if (resultEnrollment.ResultCode == Constants.ResultCode.DP_ENROLLMENT_INVALID_SET)
-                    {
-                        SendMessage(Action.SendMessage, oHelper.Mensaje4);
-                        SendMessage(Action.SendMessage, oHelper.Mensaje1);
-                        preenrollmentFmds.Clear();
-                        count = 0;
-                        return;
-                    }
+                else
+                {
+                    MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -184,24 +208,25 @@ namespace UareUSampleCSharp
         {
             if (result != null)
             {
-                string mensaje = oHelper.Mensaje2;               
+                string mensaje = oHelper.HuellaCapturada;               
                 fmrRegistrar registrar = new fmrRegistrar(mensaje, result.Data);
-                //this.Close();
                 registrar.ShowDialog();
                 this.Close();
             }         
         }
 
-        
-        //private void Enrollment_FormClosing(object sender, FormClosingEventArgs e)
-        //{
+        private void Enrollment_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (switche)
+            {
+                DialogResult dr = MessageBox.Show("Desea cancelar esta operacion?", "Pesaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-        //    DialogResult dr = MessageBox.Show("Desea cancelar esta operacion?", "Pesaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
 
-        //    if (dr == DialogResult.No)
-        //    {
-        //        e.Cancel = true;
-        //    }
-        //}
     }
 }
