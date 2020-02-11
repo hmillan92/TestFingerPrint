@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FuncionesLogicas
 {
@@ -15,7 +16,7 @@ namespace FuncionesLogicas
         #endregion
 
         #region Mensajes de Consola
-        public string ColocarHuella = "Coloque su huella sobre el lector...";
+        public string ColocarHuella = "Coloque una huella sobre el lector...";
 
         public string HuellaCapturada = "Huella capturada.";
 
@@ -25,7 +26,7 @@ namespace FuncionesLogicas
 
         public string HuellaNoEncontrada = "Huella no encontrada.";
 
-        public string ErrorServidor = "Error al conectar con el servidor, revise su conexion.";
+        public string ErrorServidor = "Error al tratar de conectar con el servidor o base de datos, por favor revise su conexion e intente nuevamente.";
 
         public string HuellaExiste = "Ya existe un Operador con esta huella";
 
@@ -35,6 +36,9 @@ namespace FuncionesLogicas
         #region Mensajes del Sistema
 
         public string NombreSistema = "Pesaje";
+        public string LectorOff = "Lector no detectado";
+        public string ServerOff = "desconectado";
+        public string ServerOn = "conectado";
         #endregion
 
     }

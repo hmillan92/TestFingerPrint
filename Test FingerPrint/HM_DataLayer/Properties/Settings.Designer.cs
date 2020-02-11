@@ -32,5 +32,17 @@ namespace HM_DataLayer.Properties {
                 return ((string)(this["ConnStringSQL"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Daaltex;Pooling=False; ")]
+        public string ConnStringSQL2 {
+            get {
+                return ((string)(this["ConnStringSQL2"]));
+            }
+            set {
+                this["ConnStringSQL2"] = value;
+            }
+        }
     }
 }

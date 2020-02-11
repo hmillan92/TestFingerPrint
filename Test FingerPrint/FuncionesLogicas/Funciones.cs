@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using DPUruNet;
@@ -24,7 +25,7 @@ namespace FuncionesLogicas
             return Exitosa;
         }
 
-        public string CrearOperador(Fmd presult, string pcodOperador, string pnombre,string pstatus)
+        public string CrearOperador(Fmd pResult, int pempID)
         {
             Operador oOperador;
             string Mensaje;
@@ -33,24 +34,31 @@ namespace FuncionesLogicas
 
             if (conexion)
             {
-                oOperador = CompararHuella(presult);
+                oOperador = CompararHuella(pResult);
 
                 if (oOperador == null)
                 {
-                    string huellaString = Convert.ToBase64String(presult.Bytes);
+                    List<Operador> buscarPorEmpID = transaccion.ListarOperadores(pempID);
+                    if (buscarPorEmpID.Count == 0)
+                    {
+                        string huellaString = Convert.ToBase64String(pResult.Bytes);
 
-                    oOperador = new Operador();
-                    oOperador.CodOperador = pcodOperador;
-                    oOperador.Nombre = pnombre;
-                    oOperador.Huella = huellaString;
-                    oOperador.Status = pstatus;
+                        oOperador = new Operador();
+                        oOperador.empID = pempID;
+                        oOperador.Huella = huellaString;
 
-                    Mensaje = transaccion.CrearOperador(oOperador);
+                        Mensaje = transaccion.CrearOperador(oOperador);
+                    }
+
+                    else
+                    {
+                        Mensaje = "No permitido, Ya existe un operador registrado con este ID";
+                    }
                 }
 
                 else
                 {
-                    Mensaje = "Ya existe un operador registrado con esta huella";
+                    Mensaje = "No permitido, Ya existe un operador registrado con esta huella";
                 }
             }
 
@@ -63,14 +71,12 @@ namespace FuncionesLogicas
             return Mensaje;
         }
 
-
-        public List<Operador> ListarHuellas()
+        public List<Operador> ListarOperadores([Optional] int pempID)
         {
-            List<Operador> listarOp = transaccion.ListarHuellas();
+            List<Operador> listarOp = transaccion.ListarOperadores(pempID);
 
             return listarOp;
         }
-
 
         public Operador CompararHuella(Fmd pFirstFinger)
         {
@@ -81,8 +87,7 @@ namespace FuncionesLogicas
                 ///Añadimos el parametro firstF a firstFinger un objeto de tipo Fmd que sera el objeto de la huella capturada
                 Fmd firstFinger = pFirstFinger;
 
-                List<Operador> listaOp = transaccion.ListarHuellas();
-
+                List<Operador> listaOp = transaccion.ListarOperadores();
 
                 ///un foreach para capturar los valores de cada registro en la BD
                 foreach (var item in listaOp)
@@ -101,15 +106,13 @@ namespace FuncionesLogicas
                     {
                         opEncontrado = new Operador();
 
-                        opEncontrado.IdOperador = item.IdOperador;
-                        opEncontrado.CodOperador = item.CodOperador;
-                        opEncontrado.Nombre = item.Nombre;
-                        opEncontrado.Status = item.Status;
+                        opEncontrado.empID = item.empID;
                     }
                 }
             }
            
             return opEncontrado;
         }
+
     }
 }

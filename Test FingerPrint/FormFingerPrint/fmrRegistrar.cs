@@ -10,11 +10,12 @@ namespace FormFingerPrint
 {
     public partial class fmrRegistrar : Form       
     {
+        public Form_Main _sender;
         string mensaje;
         bool switche = false;
+        bool conexion;
         Fmd result;
         Funciones funciones = new Funciones();
-        Form_Main form_Main = new Form_Main();
         Helper oHelper = new Helper();
 
         public fmrRegistrar()
@@ -22,47 +23,50 @@ namespace FormFingerPrint
             InitializeComponent();
         }
 
-        public fmrRegistrar(string pmensaje, Fmd presult)
+        public fmrRegistrar(Fmd presult)
         {
             InitializeComponent();
-            mensaje = pmensaje;
             result = presult;
             
         }
 
         private void fmrRegistrar_Load(object sender, EventArgs e)
         {
-            txtHuella.Text = mensaje;
+            //this.Activate();
             if (result != null)
             {
+                txtHuella.Text = oHelper.HuellaCapturada;
                 btnAgregar.Enabled = true;
             }      
         }
     
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            string nombre = txtNombre.Text;
-            string codOperador = txtCodOperador.Text;
-            string status = cbStatus.Text;
-
-            if (string.IsNullOrEmpty(codOperador))
+            conexion = funciones.ValidaConexionSQL();
+            if (conexion)
             {
-                MessageBox.Show("Debe agregar un codigo de operador valido.");              
-            }
+                int empID = int.Parse(txtCodOperador.Text);
 
-            else if (string.IsNullOrEmpty(status))
-            {
-                MessageBox.Show("Debe seleccionar un status al operador.");
+                if (empID <= 0)
+                {
+                    MessageBox.Show("Debe agregar un ID de operador valido.");
+                }
+
+                else
+                {
+                    mensaje = funciones.CrearOperador(result, empID);
+                    MessageBox.Show(mensaje);
+                    switche = true;
+                    this.Close();
+
+                }
             }
 
             else
-            {
-                mensaje = funciones.CrearOperador(result, codOperador, nombre, status);
-                MessageBox.Show(mensaje);
-                switche = true;
+            {                
                 this.Close();
-                
-            }           
+            }
+                   
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -72,6 +76,7 @@ namespace FormFingerPrint
 
         private void fmrRegistrar_FormClosing(object sender, FormClosingEventArgs e)
         {
+
             if (!switche)
             {
                 DialogResult dr = MessageBox.Show("Desea cancelar esta operacion?", oHelper.NombreSistema, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -81,6 +86,6 @@ namespace FormFingerPrint
                     e.Cancel = true;
                 }
             }
-        }
+        }             
     }
 }

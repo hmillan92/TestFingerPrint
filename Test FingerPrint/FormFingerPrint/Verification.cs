@@ -17,6 +17,7 @@ namespace UareUSampleCSharp
         private const int PROBABILITY_ONE = 0x7fffffff;
         private Fmd firstFinger;
         private int count;
+        bool conexion;
         private Operador OperadorEncontrado = new Operador();
         Funciones funciones = new Funciones();
         Helper oHelper = new Helper();
@@ -51,6 +52,7 @@ namespace UareUSampleCSharp
             }
         }
 
+                      
         /// <summary>
         /// Handler for when a fingerprint is captured.
         /// </summary>
@@ -59,10 +61,11 @@ namespace UareUSampleCSharp
         {
             try
             {
+                
                 // Check capture quality and throw an error if bad.
                 if (!_sender.CheckCaptureResult(captureResult)) return;
 
-                SendMessage(Action.SendMessage, oHelper.HuellaCapturada);
+                SendMessage(Action.SendMessage, oHelper.HuellaCapturada);              
 
                 DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
                 if (resultConversion.ResultCode != Constants.ResultCode.DP_SUCCESS)
@@ -73,18 +76,16 @@ namespace UareUSampleCSharp
 
                 if (count == 0)
                 {
-
                     firstFinger = resultConversion.Data;
 
-                    bool conexion = funciones.ValidaConexionSQL();
-
+                    conexion = funciones.ValidaConexionSQL();
                     if (conexion)
                     {
                         OperadorEncontrado = funciones.CompararHuella(firstFinger);
 
                         if (OperadorEncontrado != null)
                         {
-                            SendMessage(Action.SendMessage, "Huella coincide con operador " + OperadorEncontrado.Nombre + " y su status es " + OperadorEncontrado.Status);
+                            SendMessage(Action.SendMessage, "Huella coincide con operador " + OperadorEncontrado.empID);
                             SendMessage(Action.SendMessage, oHelper.ColocarHuella);
                         }
 
@@ -99,12 +100,11 @@ namespace UareUSampleCSharp
 
                     else
                     {
-                        MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        this.Close();
+                        SendMessage(Action.SendMessage, oHelper.ErrorServidor);
                     }
-                    
-                }
+                }                                           
             }
+
             catch (Exception ex)
             {
                 // Send error message, then close form
@@ -160,5 +160,10 @@ namespace UareUSampleCSharp
             }
         }
         #endregion
+
+        private void Verification_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
     }
 }

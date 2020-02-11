@@ -30,12 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvListar = new System.Windows.Forms.DataGridView();
-            this.CodOperador = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nombreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.huellaBdBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.btnBack = new System.Windows.Forms.Button();
+            this.empID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.huellaBdBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -45,41 +43,18 @@
             this.dgvListar.AllowUserToAddRows = false;
             this.dgvListar.AllowUserToDeleteRows = false;
             this.dgvListar.AutoGenerateColumns = false;
-            this.dgvListar.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvListar.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dgvListar.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvListar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvListar.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CodOperador,
-            this.nombreDataGridViewTextBoxColumn,
-            this.Status});
+            this.empID});
             this.dgvListar.DataSource = this.huellaBdBindingSource;
             this.dgvListar.Enabled = false;
-            this.dgvListar.Location = new System.Drawing.Point(12, 45);
+            this.dgvListar.Location = new System.Drawing.Point(12, 48);
             this.dgvListar.Name = "dgvListar";
             this.dgvListar.ReadOnly = true;
-            this.dgvListar.Size = new System.Drawing.Size(306, 161);
+            this.dgvListar.Size = new System.Drawing.Size(106, 161);
             this.dgvListar.TabIndex = 0;
-            // 
-            // CodOperador
-            // 
-            this.CodOperador.DataPropertyName = "CodOperador";
-            this.CodOperador.HeaderText = "CodOperador";
-            this.CodOperador.Name = "CodOperador";
-            this.CodOperador.ReadOnly = true;
-            // 
-            // nombreDataGridViewTextBoxColumn
-            // 
-            this.nombreDataGridViewTextBoxColumn.DataPropertyName = "Nombre";
-            this.nombreDataGridViewTextBoxColumn.HeaderText = "Nombre";
-            this.nombreDataGridViewTextBoxColumn.Name = "nombreDataGridViewTextBoxColumn";
-            this.nombreDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // Status
-            // 
-            this.Status.DataPropertyName = "Status";
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
             // 
             // huellaBdBindingSource
             // 
@@ -88,7 +63,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 18);
+            this.label1.Location = new System.Drawing.Point(7, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(121, 13);
             this.label1.TabIndex = 1;
@@ -96,18 +71,26 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(243, 215);
+            this.btnBack.Location = new System.Drawing.Point(43, 215);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
             this.btnBack.TabIndex = 7;
             this.btnBack.Text = "Back";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
+            // empID
+            // 
+            this.empID.DataPropertyName = "empID";
+            this.empID.HeaderText = "empID";
+            this.empID.Name = "empID";
+            this.empID.ReadOnly = true;
+            this.empID.Width = 63;
+            // 
             // fmrListar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 243);
+            this.ClientSize = new System.Drawing.Size(140, 243);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvListar);
@@ -128,8 +111,6 @@
         private System.Windows.Forms.BindingSource huellaBdBindingSource;
         private System.Windows.Forms.Label label1;
         internal System.Windows.Forms.Button btnBack;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CodOperador;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nombreDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn empID;
     }
 }

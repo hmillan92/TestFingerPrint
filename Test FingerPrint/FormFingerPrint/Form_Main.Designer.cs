@@ -34,6 +34,9 @@
             this.btnListar = new System.Windows.Forms.Button();
             this.btnEnroll = new System.Windows.Forms.Button();
             this.btnVerify = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblStatusMensaje = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtReaderSelected
@@ -49,7 +52,7 @@
             // 
             this.Label1.Location = new System.Drawing.Point(12, 9);
             this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(236, 15);
+            this.Label1.Size = new System.Drawing.Size(112, 15);
             this.Label1.TabIndex = 18;
             this.Label1.Text = "Lector Seleccionado:";
             // 
@@ -93,10 +96,28 @@
             this.btnVerify.Text = "Verificar Huella";
             this.btnVerify.Click += new System.EventHandler(this.btnVerify_Click);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblStatusMensaje});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 144);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(258, 22);
+            this.statusStrip1.TabIndex = 26;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // lblStatusMensaje
+            // 
+            this.lblStatusMensaje.Name = "lblStatusMensaje";
+            this.lblStatusMensaje.Size = new System.Drawing.Size(63, 17);
+            this.lblStatusMensaje.Text = "conectado";
+            // 
             // Form_Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(257, 122);
+            this.ClientSize = new System.Drawing.Size(258, 166);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnEnroll);
             this.Controls.Add(this.btnVerify);
             this.Controls.Add(this.btnListar);
@@ -109,6 +130,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pesaje";
             this.Load += new System.EventHandler(this.Form_Main_Load);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -122,5 +145,7 @@
         private System.Windows.Forms.Button btnListar;
         public System.Windows.Forms.Button btnEnroll;
         internal System.Windows.Forms.Button btnVerify;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        internal System.Windows.Forms.ToolStripStatusLabel lblStatusMensaje;
     }
 }

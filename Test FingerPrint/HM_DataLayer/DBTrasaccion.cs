@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,8 +44,8 @@ namespace HM_DataLayer
                 ConClass.Open();
                 cmd.Transaction = ConClass.Con.BeginTransaction();
 
-                cmd.CommandText = "Insert into Operadores (CodOperador, Nombre, Huella, Status) " +
-                        "Values  ('" + oOperador.CodOperador + "','" + oOperador.Nombre + "','" + oOperador.Huella + "', '" + oOperador.Status + "')";
+                cmd.CommandText = "Insert into Operadores (empID, Huella) " +
+                        "Values  ('" + oOperador.empID + "','" + oOperador.Huella + "')";
 
                 cmd.ExecuteNonQuery();
                 cmd.Transaction.Commit();
@@ -65,9 +66,9 @@ namespace HM_DataLayer
             return Respuesta;
         }
 
-        public List<Operador> ListarHuellas()
+        public List<Operador> ListarOperadores([Optional] int pempID)
         {
-            List<Operador> ListaHuellas = new List<Operador>();
+            List<Operador> ListaOperadores = new List<Operador>();
             var ConClass = new DaConnectSQL();
 
             SqlCommand cmd = new SqlCommand();
@@ -76,25 +77,28 @@ namespace HM_DataLayer
 
             try
             {
-            ConClass.Open();
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = cmd.Connection;
+                ConClass.Open();
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = cmd.Connection;
+                if (pempID <= 0)
+                {
+                    cmd.CommandText = "SELECT * FROM Operadores ";
+                }
+                else
+                {
+                    cmd.CommandText = "SELECT * FROM Operadores where empID =  '" + pempID + "'";
+                }
 
-            cmd.CommandText = "SELECT * FROM Operadores ";
-
-            SqlDataReader dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
             
                 while (dr.Read())
                 {
                     {
                         Operador OperadoresBd = new Operador();
-                        OperadoresBd.IdOperador = dr.GetInt32(0);
-                        OperadoresBd.CodOperador = dr.GetString(1);
-                        OperadoresBd.Nombre = dr.GetString(2);
-                        OperadoresBd.Huella = dr.GetString(3);
-                        OperadoresBd.Status = dr.GetString(4);
+                        OperadoresBd.empID = dr.GetInt32(0);
+                        OperadoresBd.Huella = dr.GetString(1);
 
-                        ListaHuellas.Add(OperadoresBd);
+                        ListaOperadores.Add(OperadoresBd);
                     }
                 }
                 dr.Close();
@@ -102,9 +106,9 @@ namespace HM_DataLayer
 
             catch (Exception ex)
             {
-                Console.WriteLine("Error en la transaccion " + ex.Message);
+                string Mensaje = ex.Message;
             }
-            return ListaHuellas;
+            return ListaOperadores;
         }
     }
 }

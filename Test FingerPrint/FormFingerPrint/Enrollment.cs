@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
 using DPUruNet;
 using Entidades;
@@ -18,7 +19,7 @@ namespace UareUSampleCSharp
         Helper oHelper = new Helper();
         int count;
         bool conexion;
-        bool switche = false;
+        bool switche;
 
         Funciones funciones = new Funciones();
         DataResult<Fmd> result;
@@ -35,13 +36,14 @@ namespace UareUSampleCSharp
         /// <param name="e"></param>
         private void Enrollment_Load(object sender, System.EventArgs e)
         {
+            progressBar1.Value = 0;
             CheckForIllegalCrossThreadCalls = false;
             txtEnroll.Text = string.Empty;
-            btnAceptar.Enabled = false;
             preenrollmentFmds = new List<Fmd>();
             preenrollmentFmds.Clear();
             count = 0;
-            
+            switche = false;
+         
             SendMessage(Action.SendMessage, oHelper.ColocarHuella);
 
             if (!_sender.OpenReader())
@@ -66,89 +68,118 @@ namespace UareUSampleCSharp
                 // Check capture quality and throw an error if bad.
                 if (!_sender.CheckCaptureResult(captureResult)) return;
 
-                count++;
                 result = null;
-                btnAceptar.Enabled = false;
                 switche = true;
+
+                DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
+
+                //REVISAR LOS HILOS AQUI
+                txtEnroll.Clear();
+
+                SendMessage(Action.SendMessage, "Capturando...");
+                Thread.Sleep(400);
+                
+                //intervalo de 2 segundos
                 conexion = funciones.ValidaConexionSQL();
                 if (conexion)
                 {
-                    DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
-
                     txtEnroll.Clear();
+                    SendMessage(Action.SendMessage, oHelper.HuellaCapturada);
+                    count++;
 
-                    SendMessage(Action.SendMessage, oHelper.HuellaCapturada + "\r\nCount: " + (count) + "/4");
+                    switch (count)
+                    {
+                        case 1:
+                            progressBar1.Value = progressBar1.Value = 25;
+                            break;
+                        case 2:
+                            progressBar1.Value = progressBar1.Value = 50;
+                            break;
+                        case 3:
+                            progressBar1.Value = progressBar1.Value = 75;
+                            break;
+                        default:
+                            break;
+                    }
 
                     if (resultConversion.ResultCode != Constants.ResultCode.DP_SUCCESS)
                     {
+                        count--;
                         _sender.Reset = true;
                         throw new Exception(resultConversion.ResultCode.ToString());
+                        
                     }
-
+                    SendMessage(Action.SendMessage, +count + "/" + "4");
                     preenrollmentFmds.Add(resultConversion.Data);
 
                     if (count >= 4)
                     {
-                        DataResult<Fmd> resultEnrollment = DPUruNet.Enrollment.CreateEnrollmentFmd(Constants.Formats.Fmd.ANSI, preenrollmentFmds);
+                        count = 0;
+                        conexion = funciones.ValidaConexionSQL();
+                        if (conexion)
+                        {                           
+                            DataResult<Fmd> resultEnrollment = DPUruNet.Enrollment.CreateEnrollmentFmd(Constants.Formats.Fmd.ANSI, preenrollmentFmds);
 
-                        if (resultEnrollment.ResultCode == Constants.ResultCode.DP_SUCCESS)
-                        {
-
-                            result = resultEnrollment;
-                            conexion = funciones.ValidaConexionSQL();
-                            if (conexion)
+                            if (resultEnrollment.ResultCode == Constants.ResultCode.DP_SUCCESS)
                             {
+                                result = resultEnrollment;
                                 Operador oOperadores = funciones.CompararHuella(result.Data);
 
                                 if (oOperadores == null)
                                 {
+                                    progressBar1.Value = 100;
+                                    Thread.Sleep(800);
+                                    progressBar1.Value = 0;
                                     switche = false;
-                                    btnAceptar.Enabled = true;
-                                    btnAceptar.PerformClick();
+                                    Aceptar();
                                 }
 
                                 else
                                 {
+                                    progressBar1.Value = 0;
                                     switche = false;
                                     MessageBox.Show(oHelper.HuellaExiste, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     txtEnroll.Clear();
                                     SendMessage(Action.SendMessage, oHelper.ColocarHuella);
                                 }
+
+                                preenrollmentFmds.Clear();
+                                count = 0;
+                                return;
                             }
 
-                            else
+                            else if (resultEnrollment.ResultCode == Constants.ResultCode.DP_ENROLLMENT_INVALID_SET)
                             {
-                                MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                txtEnroll.Clear();
+                                switche = false;
+                                SendMessage(Action.SendMessage, oHelper.FmdError);
                                 SendMessage(Action.SendMessage, oHelper.ColocarHuella);
+                                preenrollmentFmds.Clear();
+                                count = 0;
+                                return;
                             }
-
-
-                            preenrollmentFmds.Clear();
-                            count = 0;
-                            return;
                         }
 
-
-                        else if (resultEnrollment.ResultCode == Constants.ResultCode.DP_ENROLLMENT_INVALID_SET)
+                        else
                         {
-                            SendMessage(Action.SendMessage, oHelper.FmdError);
-                            SendMessage(Action.SendMessage, oHelper.ColocarHuella);
-                            preenrollmentFmds.Clear();
-                            count = 0;
-                            return;
+                            switche = false;
+                            txtEnroll.Clear();
+                            MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                         }
                     }
                 }
 
                 else
                 {
+                    switche = false;
+                    txtEnroll.Clear();
                     MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Close();
                 }
             }
             catch (Exception ex)
             {
+                count--;
                 // Send error message, then close form
                 SendMessage(Action.SendMessage, oHelper.Error + ex.Message);                
             }  
@@ -198,35 +229,42 @@ namespace UareUSampleCSharp
                     }
                 }
             }
+
             catch (Exception)
             {
             }
         }
         #endregion
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private void Aceptar()
         {
             if (result != null)
-            {
-                string mensaje = oHelper.HuellaCapturada;               
-                fmrRegistrar registrar = new fmrRegistrar(mensaje, result.Data);
-                registrar.ShowDialog();
+            {        
+                fmrRegistrar registrar = new fmrRegistrar(result.Data);
+                registrar._sender = _sender;
                 this.Close();
+
+                _sender.Visible = false;
+                registrar.ShowDialog();
+                _sender.Visible = true;
+                _sender.Activate();
+
             }         
         }
 
         private void Enrollment_FormClosing(object sender, FormClosingEventArgs e)
         {
+            _sender.lblStatusMensaje.Text = oHelper.ServerOn;
             if (switche)
             {
-                DialogResult dr = MessageBox.Show("Desea cancelar esta operacion?", "Pesaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dr = MessageBox.Show("Desea cancelar esta operacion?", oHelper.NombreSistema, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (dr == DialogResult.No)
                 {
                     e.Cancel = true;
                 }
-            }
+                
+            }                                  
         }
-
     }
 }

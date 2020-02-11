@@ -76,47 +76,31 @@ namespace UareUSampleCSharp
         private Verification _verification;
         private void btnVerify_Click(object sender, EventArgs e)
         {
-            conexion = funciones.ValidaConexionSQL();
-            if (conexion)
+            if (_verification == null)
             {
-                if (_verification == null)
-                {
-                    _verification = new Verification();
-                    _verification._sender = this;
-                }
-
-                _verification.ShowDialog();
-
-                _verification.Dispose();
-                _verification = null;
+                _verification = new Verification();
+                _verification._sender = this;
             }
 
-            else
-            {
-                MessageBox.Show(oHelper.ErrorServidor);
-            }          
+            _verification.ShowDialog();
+
+            _verification.Dispose();
+            _verification = null;
+     
         }
 
 
         private Enrollment _enrollment;
         private void btnEnroll_Click(object sender, EventArgs e)
         {
-            conexion = funciones.ValidaConexionSQL();
-            if (conexion)
+            if (_enrollment == null)
             {
-                if (_enrollment == null)
-                {
-                    _enrollment = new Enrollment();
-                    _enrollment._sender = this;
-                }
+                _enrollment = new Enrollment();
+                _enrollment._sender = this;
+            }
 
                 _enrollment.ShowDialog();
-            }
-
-            else
-            {
-                MessageBox.Show(oHelper.ErrorServidor);
-            }
+            
         }
 
 
@@ -130,10 +114,10 @@ namespace UareUSampleCSharp
             }
 
             else
-            {
-                MessageBox.Show(oHelper.ErrorServidor);
+                {
+                    MessageBox.Show(oHelper.ErrorServidor);
+                }
             }
-        }
 
         #endregion
 
@@ -369,6 +353,24 @@ namespace UareUSampleCSharp
                 }
 
             }
+        }
+
+        private void lblStatusMensaje_TextChanged(object sender, EventArgs e)
+        {
+            if (lblStatusMensaje.Text == oHelper.ServerOff)
+            {
+                btnEnroll.Enabled = false;
+                btnListar.Enabled = false;
+                btnVerify.Enabled = false;
+            }
+
+            else if (lblStatusMensaje.Text == oHelper.ServerOn)
+            {
+                btnEnroll.Enabled = true;
+                btnListar.Enabled = true;
+                btnVerify.Enabled = true;
+            }
+            
         }
     }
 }

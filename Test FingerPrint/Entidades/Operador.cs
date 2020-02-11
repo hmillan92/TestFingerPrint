@@ -8,14 +8,9 @@ namespace Entidades
 {
     public class Operador
     {
-        public int IdOperador { get; set; }
-
-        public string CodOperador { get; set; }
-
-        public string Nombre { get; set; }
+        public int empID { get; set; }
 
         public string Huella { get; set; }
 
-        public string Status { get; set; }
     }
 }
