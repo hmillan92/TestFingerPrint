@@ -1,11 +1,13 @@
 ﻿using System.Windows.Forms;
 using System;
 using DPUruNet;
+using FuncionesLogicas;
 
 namespace UareUSampleCSharp
 {
     public partial class ReaderSelection : Form
     {
+        private Helper oHelper = new Helper();
         private ReaderCollection _readers;
 
         private Form_Main _sender;
@@ -59,7 +61,6 @@ namespace UareUSampleCSharp
                 {
                     btnSelect.Enabled = false;
                     btnCaps.Enabled = false;
-                    MessageBox.Show("Lector no detectado, verifique conexion del lector de huella.", "Pesaje", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)

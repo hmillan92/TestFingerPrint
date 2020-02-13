@@ -181,7 +181,7 @@ namespace UareUSampleCSharp
             {
                 count--;
                 // Send error message, then close form
-                SendMessage(Action.SendMessage, oHelper.Error + ex.Message);                
+                SendMessage(Action.SendMessage, oHelper.Error + ex.Message);
             }  
         }
 
@@ -199,6 +199,13 @@ namespace UareUSampleCSharp
         private void Enrollment_Closed(object sender, System.EventArgs e)
         {
             _sender.CancelCaptureAndCloseReader(this.OnCaptured);
+
+            if (_sender.CurrentReader == null)
+            {
+                _sender.btnListar.Enabled = false;
+                _sender.btnEnroll.Enabled = false;
+                _sender.btnVerify.Enabled = false;
+            }
         }
 
         #region SendMessage
@@ -227,6 +234,10 @@ namespace UareUSampleCSharp
                             txtEnroll.ScrollToCaret();
                             break;
                     }
+                }
+                if (payload == oHelper.Error + "DP_DEVICE_FAILURE")
+                {
+                    this.Close();
                 }
             }
 

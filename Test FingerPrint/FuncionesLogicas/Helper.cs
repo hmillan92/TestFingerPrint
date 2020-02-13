@@ -36,7 +36,7 @@ namespace FuncionesLogicas
         #region Mensajes del Sistema
 
         public string NombreSistema = "Pesaje";
-        public string LectorOff = "Lector no detectado";
+        public string LectorOff = "Lector no detectado, , verifique conexion con el lector de huellas.";
         public string ServerOff = "desconectado";
         public string ServerOn = "conectado";
         #endregion

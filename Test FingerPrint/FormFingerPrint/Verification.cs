@@ -23,7 +23,7 @@ namespace UareUSampleCSharp
         Funciones funciones = new Funciones();
         Helper oHelper = new Helper();
 
-
+        private delegate void MiDelegado();
         public Verification()
         {
             InitializeComponent();
@@ -111,13 +111,9 @@ namespace UareUSampleCSharp
             {
                 // Send error message, then close form
                 SendMessage(Action.SendMessage, oHelper.Error + ex.Message);
+                
             }
 
-            if (captureResult.ResultCode == Constants.ResultCode.DP_DEVICE_FAILURE)
-            {
-                Thread t = new Thread(cerrar);
-                t.Start();
-            }
         }
 
         /// <summary>
@@ -134,6 +130,13 @@ namespace UareUSampleCSharp
         private void Verification_Closed(object sender, System.EventArgs e)
         {
             _sender.CancelCaptureAndCloseReader(this.OnCaptured);
+            if (_sender.CurrentReader == null)
+            {
+                _sender.btnListar.Enabled = false;
+                _sender.btnEnroll.Enabled = false;
+                _sender.btnVerify.Enabled = false;
+            }
+            
         }
 
         #region SendMessage
@@ -162,6 +165,11 @@ namespace UareUSampleCSharp
                             break;
                     }
                 }
+                if (payload == oHelper.Error+ "DP_DEVICE_FAILURE")
+                {
+                    
+                    this.Close();
+                }
             }
             catch (Exception)
             {
@@ -169,17 +177,5 @@ namespace UareUSampleCSharp
         }
         #endregion
 
-        private void Verification_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
-
-        void cerrar()
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new System.Action(() => this.Close()));
-            }
-        }
     }
 }
