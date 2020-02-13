@@ -142,10 +142,10 @@
         internal System.Windows.Forms.TextBox txtReaderSelected;
         internal System.Windows.Forms.Label Label1;
         internal System.Windows.Forms.Button btnReaderSelect;
-        private System.Windows.Forms.Button btnListar;
         public System.Windows.Forms.Button btnEnroll;
         internal System.Windows.Forms.Button btnVerify;
         private System.Windows.Forms.StatusStrip statusStrip1;
         internal System.Windows.Forms.ToolStripStatusLabel lblStatusMensaje;
+        internal System.Windows.Forms.Button btnListar;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
 using DPUruNet;
 using Entidades;
@@ -102,13 +103,20 @@ namespace UareUSampleCSharp
                     {
                         SendMessage(Action.SendMessage, oHelper.ErrorServidor);
                     }
-                }                                           
+                }
+              
             }
 
             catch (Exception ex)
             {
                 // Send error message, then close form
-                SendMessage(Action.SendMessage, oHelper.Error + ex.Message);                
+                SendMessage(Action.SendMessage, oHelper.Error + ex.Message);
+            }
+
+            if (captureResult.ResultCode == Constants.ResultCode.DP_DEVICE_FAILURE)
+            {
+                Thread t = new Thread(cerrar);
+                t.Start();
             }
         }
 
@@ -164,6 +172,14 @@ namespace UareUSampleCSharp
         private void Verification_FormClosing(object sender, FormClosingEventArgs e)
         {
 
+        }
+
+        void cerrar()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new System.Action(() => this.Close()));
+            }
         }
     }
 }
