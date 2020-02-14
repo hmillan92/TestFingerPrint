@@ -112,6 +112,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pesaje | Registrar Huella";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.fmrRegistrar_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.fmrRegistrar_FormClosed);
             this.Load += new System.EventHandler(this.fmrRegistrar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.huellaBdBindingSource)).EndInit();
             this.ResumeLayout(false);

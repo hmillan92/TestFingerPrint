@@ -8,7 +8,7 @@ using UareUSampleCSharp;
 
 namespace FormFingerPrint
 {
-    public partial class fmrRegistrar : Form       
+    public partial class fmrRegistrar : Form
     {
         public Form_Main _sender;
         string mensaje;
@@ -17,7 +17,7 @@ namespace FormFingerPrint
         Fmd result;
         Funciones funciones = new Funciones();
         Helper oHelper = new Helper();
-
+        private ReaderCollection _readers;
         public fmrRegistrar()
         {
             InitializeComponent();
@@ -27,7 +27,7 @@ namespace FormFingerPrint
         {
             InitializeComponent();
             result = presult;
-            
+
         }
 
         private void fmrRegistrar_Load(object sender, EventArgs e)
@@ -37,9 +37,9 @@ namespace FormFingerPrint
             {
                 txtHuella.Text = oHelper.HuellaCapturada;
                 btnAgregar.Enabled = true;
-            }      
+            }
         }
-    
+
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             conexion = funciones.ValidaConexionSQL();
@@ -63,10 +63,10 @@ namespace FormFingerPrint
             }
 
             else
-            {                
+            {
+                MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.Close();
             }
-                   
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -86,6 +86,21 @@ namespace FormFingerPrint
                     e.Cancel = true;
                 }
             }
-        }             
+        }
+
+        private void fmrRegistrar_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _readers = ReaderCollection.GetReaders();
+            conexion = funciones.ValidaConexionSQL();
+
+            if (_readers.Count == 0)
+            {
+                MessageBox.Show(oHelper.LectorOff, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _sender.txtReaderSelected.Text = "";
+                _sender.btnListar.Enabled = false;
+                _sender.btnEnroll.Enabled = false;
+                _sender.btnVerify.Enabled = false;
+            }
+        }
     }
 }

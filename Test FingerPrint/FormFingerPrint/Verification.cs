@@ -23,7 +23,6 @@ namespace UareUSampleCSharp
         Funciones funciones = new Funciones();
         Helper oHelper = new Helper();
 
-        private delegate void MiDelegado();
         public Verification()
         {
             InitializeComponent();
@@ -111,9 +110,8 @@ namespace UareUSampleCSharp
             {
                 // Send error message, then close form
                 SendMessage(Action.SendMessage, oHelper.Error + ex.Message);
-                
+                                     
             }
-
         }
 
         /// <summary>
@@ -128,10 +126,11 @@ namespace UareUSampleCSharp
         /// Close window.
         /// </summary>
         private void Verification_Closed(object sender, System.EventArgs e)
-        {
+        {           
             _sender.CancelCaptureAndCloseReader(this.OnCaptured);
             if (_sender.CurrentReader == null)
             {
+                MessageBox.Show(oHelper.LectorOff, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _sender.btnListar.Enabled = false;
                 _sender.btnEnroll.Enabled = false;
                 _sender.btnVerify.Enabled = false;
@@ -154,6 +153,7 @@ namespace UareUSampleCSharp
                     SendMessageCallback d = new SendMessageCallback(SendMessage);
                     this.Invoke(d, new object[] { action, payload });
                 }
+               
                 else
                 {
                     switch (action)
@@ -163,17 +163,20 @@ namespace UareUSampleCSharp
                             txtVerify.SelectionStart = txtVerify.TextLength;
                             txtVerify.ScrollToCaret();
                             break;
+
                     }
                 }
-                if (payload == oHelper.Error+ "DP_DEVICE_FAILURE")
+
+                if (payload == oHelper.Error + "DP_DEVICE_FAILURE")
                 {
-                    
                     this.Close();
                 }
             }
+
             catch (Exception)
             {
             }
+
         }
         #endregion
 

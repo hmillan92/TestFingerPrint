@@ -114,10 +114,10 @@ namespace UareUSampleCSharp
             }
 
             else
-                {
-                    MessageBox.Show(oHelper.ErrorServidor);
-                }
+            {
+                MessageBox.Show(oHelper.ErrorServidor);
             }
+        }
 
         #endregion
 

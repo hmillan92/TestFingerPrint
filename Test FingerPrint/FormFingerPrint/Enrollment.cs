@@ -20,6 +20,7 @@ namespace UareUSampleCSharp
         int count;
         bool conexion;
         bool switche;
+        private ReaderCollection _readers;
 
         Funciones funciones = new Funciones();
         DataResult<Fmd> result;
@@ -179,6 +180,7 @@ namespace UareUSampleCSharp
             }
             catch (Exception ex)
             {
+
                 count--;
                 // Send error message, then close form
                 SendMessage(Action.SendMessage, oHelper.Error + ex.Message);
@@ -198,13 +200,17 @@ namespace UareUSampleCSharp
         /// </summary>
         private void Enrollment_Closed(object sender, System.EventArgs e)
         {
-            _sender.CancelCaptureAndCloseReader(this.OnCaptured);
+                    
+            _readers = ReaderCollection.GetReaders();
 
-            if (_sender.CurrentReader == null)
+            _sender.CancelCaptureAndCloseReader(this.OnCaptured);
+            if (_readers.Count == 0)
             {
+                MessageBox.Show(oHelper.LectorOff, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _sender.btnListar.Enabled = false;
                 _sender.btnEnroll.Enabled = false;
                 _sender.btnVerify.Enabled = false;
+                switche = false;
             }
         }
 
@@ -237,6 +243,7 @@ namespace UareUSampleCSharp
                 }
                 if (payload == oHelper.Error + "DP_DEVICE_FAILURE")
                 {
+                    switche = false;
                     this.Close();
                 }
             }
@@ -254,13 +261,15 @@ namespace UareUSampleCSharp
                 fmrRegistrar registrar = new fmrRegistrar(result.Data);
                 registrar._sender = _sender;
                 this.Close();
-
                 _sender.Visible = false;
                 registrar.ShowDialog();
+
+                //this.Close();
+
                 _sender.Visible = true;
                 _sender.Activate();
 
-            }         
+            }
         }
 
         private void Enrollment_FormClosing(object sender, FormClosingEventArgs e)
