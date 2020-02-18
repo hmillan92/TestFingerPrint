@@ -16,7 +16,7 @@ namespace FuncionesLogicas
         #endregion
 
         #region Mensajes de Consola
-        public string ColocarHuella = "Coloque una huella sobre el lector...";
+        public string ColocarHuella = "Coloque una huella sobre el lector";
 
         public string HuellaCapturada = "Huella capturada.";
 
@@ -36,7 +36,7 @@ namespace FuncionesLogicas
         #region Mensajes del Sistema
 
         public string NombreSistema = "Pesaje";
-        public string LectorOff = "Lector no detectado, , verifique conexion con el lector de huellas.";
+        public string LectorOff = "Lector no detectado, verifique conexion con el lector de huellas.";
         public string ServerOff = "desconectado";
         public string ServerOn = "conectado";
         #endregion

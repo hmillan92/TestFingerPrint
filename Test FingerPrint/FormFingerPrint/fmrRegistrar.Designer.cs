@@ -99,15 +99,16 @@
             // 
             // fmrRegistrar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(218, 138);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.ClientSize = new System.Drawing.Size(226, 148);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtCodOperador);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtHuella);
             this.Controls.Add(this.btnAgregar);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "fmrRegistrar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pesaje | Registrar Huella";

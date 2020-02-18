@@ -134,6 +134,7 @@ namespace UareUSampleCSharp
                 _sender.btnListar.Enabled = false;
                 _sender.btnEnroll.Enabled = false;
                 _sender.btnVerify.Enabled = false;
+                _sender.lblStatusMensaje.Text = oHelper.LectorOff;
             }
             
         }

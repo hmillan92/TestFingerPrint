@@ -351,7 +351,6 @@ namespace UareUSampleCSharp
                 {
                     this.Close();
                 }
-
             }
         }
 

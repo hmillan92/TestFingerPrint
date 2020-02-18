@@ -32,7 +32,6 @@ namespace FormFingerPrint
 
         private void fmrRegistrar_Load(object sender, EventArgs e)
         {
-            //this.Activate();
             if (result != null)
             {
                 txtHuella.Text = oHelper.HuellaCapturada;
