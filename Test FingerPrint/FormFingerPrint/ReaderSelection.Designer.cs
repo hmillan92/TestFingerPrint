@@ -30,7 +30,6 @@
         {
             this.btnBack = new System.Windows.Forms.Button();
             this.btnSelect = new System.Windows.Forms.Button();
-            this.btnCaps = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.cboReaders = new System.Windows.Forms.ComboBox();
             this.lblSelectReader = new System.Windows.Forms.Label();
@@ -38,9 +37,9 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(133, 81);
+            this.btnBack.Location = new System.Drawing.Point(197, 52);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(115, 23);
+            this.btnBack.Size = new System.Drawing.Size(67, 23);
             this.btnBack.TabIndex = 18;
             this.btnBack.Text = "Back";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
@@ -48,30 +47,20 @@
             // btnSelect
             // 
             this.btnSelect.Enabled = false;
-            this.btnSelect.Location = new System.Drawing.Point(12, 81);
+            this.btnSelect.Location = new System.Drawing.Point(116, 52);
             this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(115, 23);
+            this.btnSelect.Size = new System.Drawing.Size(75, 23);
             this.btnSelect.TabIndex = 17;
             this.btnSelect.Text = "Seleccionar";
             this.btnSelect.Click += new System.EventHandler(this.btnReaderSelect_Click);
             // 
-            // btnCaps
-            // 
-            this.btnCaps.Enabled = false;
-            this.btnCaps.Location = new System.Drawing.Point(133, 52);
-            this.btnCaps.Name = "btnCaps";
-            this.btnCaps.Size = new System.Drawing.Size(115, 23);
-            this.btnCaps.TabIndex = 16;
-            this.btnCaps.Text = "Capaciddades";
-            this.btnCaps.Click += new System.EventHandler(this.btnCaps_Click);
-            // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(12, 52);
+            this.btnRefresh.Location = new System.Drawing.Point(274, 25);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(115, 23);
+            this.btnRefresh.Size = new System.Drawing.Size(34, 23);
             this.btnRefresh.TabIndex = 15;
-            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.Text = "F5";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // cboReaders
@@ -93,20 +82,18 @@
             // ReaderSelection
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(296, 120);
+            this.ClientSize = new System.Drawing.Size(334, 85);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnSelect);
-            this.Controls.Add(this.btnCaps);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.cboReaders);
             this.Controls.Add(this.lblSelectReader);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(312, 159);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(312, 159);
             this.Name = "ReaderSelection";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pesaje | Seleccionar Lector";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ReaderSelection_FormClosing);
             this.Load += new System.EventHandler(this.ReaderSelection_Load);
             this.ResumeLayout(false);
 
@@ -116,7 +103,6 @@
 
         internal System.Windows.Forms.Button btnBack;
         internal System.Windows.Forms.Button btnSelect;
-        internal System.Windows.Forms.Button btnCaps;
         internal System.Windows.Forms.Button btnRefresh;
         internal System.Windows.Forms.ComboBox cboReaders;
         internal System.Windows.Forms.Label lblSelectReader;

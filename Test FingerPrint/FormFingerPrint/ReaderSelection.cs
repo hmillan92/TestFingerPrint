@@ -54,13 +54,11 @@ namespace UareUSampleCSharp
                 if (cboReaders.Items.Count > 0)
                 {
                     cboReaders.SelectedIndex = 0;
-                    btnCaps.Enabled = true;
                     btnSelect.Enabled = true;
                 }
                 else
                 {
                     btnSelect.Enabled = false;
-                    btnCaps.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -71,20 +69,6 @@ namespace UareUSampleCSharp
                 String caption = "Cannot access readers";
                 MessageBox.Show(text, caption);
             }
-        }
-
-        private Capabilities _caps;
-        private void btnCaps_Click(System.Object sender, System.EventArgs e)
-        {
-            _reader = _readers[cboReaders.SelectedIndex];
-
-            if (_caps == null)
-            {
-                _caps = new Capabilities();
-                _caps.Sender = this;
-            }
-
-            _caps.ShowDialog();
         }
 
         private void btnReaderSelect_Click(System.Object sender, System.EventArgs e)
@@ -106,6 +90,20 @@ namespace UareUSampleCSharp
         private void ReaderSelection_Load(object sender, System.EventArgs e)
         {
             btnRefresh_Click(this, new System.EventArgs());
+        }
+
+        private void ReaderSelection_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            btnRefresh_Click(this, new System.EventArgs());
+            _readers = ReaderCollection.GetReaders();
+
+            if (_readers.Count == 0)
+            {
+                _sender.txtReaderSelected.Text = "";
+                _sender.btnListar.Enabled = false;
+                _sender.btnEnroll.Enabled = false;
+                _sender.btnVerify.Enabled = false;
+            }
         }
     }
 }

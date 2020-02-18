@@ -63,7 +63,6 @@ namespace UareUSampleCSharp
                 Thread.Sleep(300);
                 LimpiarConsola();
 
-
                 conexion = funciones.ValidaConexionSQL();
                 if (conexion)
                 {

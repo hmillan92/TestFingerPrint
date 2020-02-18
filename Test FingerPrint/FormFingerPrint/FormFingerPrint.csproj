@@ -80,12 +80,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Capabilities.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Capabilities.Designer.cs">
-      <DependentUpon>Capabilities.cs</DependentUpon>
-    </Compile>
     <Compile Include="Enrollment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,9 +118,6 @@
     <Compile Include="Verification.Designer.cs">
       <DependentUpon>Verification.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Capabilities.resx">
-      <DependentUpon>Capabilities.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Enrollment.resx">
       <DependentUpon>Enrollment.cs</DependentUpon>
     </EmbeddedResource>

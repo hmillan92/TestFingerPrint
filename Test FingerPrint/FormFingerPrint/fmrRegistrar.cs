@@ -45,20 +45,11 @@ namespace FormFingerPrint
             if (conexion)
             {
                 int empID = int.Parse(txtCodOperador.Text);
-
-                if (empID <= 0)
-                {
-                    MessageBox.Show("Debe agregar un ID de operador valido.");
-                }
-
-                else
-                {
-                    mensaje = funciones.CrearOperador(result, empID);
-                    MessageBox.Show(mensaje);
-                    switche = true;
-                    this.Close();
-
-                }
+                
+                mensaje = funciones.CrearOperador(result, empID);
+                MessageBox.Show(mensaje);
+                switche = true;
+                this.Close();               
             }
 
             else
