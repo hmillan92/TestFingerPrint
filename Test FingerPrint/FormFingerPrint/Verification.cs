@@ -28,11 +28,6 @@ namespace UareUSampleCSharp
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Initialize the form.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Verification_Load(object sender, System.EventArgs e)
         {
             txtVerify.Text = string.Empty;
@@ -51,8 +46,7 @@ namespace UareUSampleCSharp
                 this.Close();
             }
         }
-
-                      
+                    
         /// <summary>
         /// Handler for when a fingerprint is captured.
         /// </summary>
@@ -61,70 +55,87 @@ namespace UareUSampleCSharp
         {
             try
             {
-                
+                LimpiarConsola();
                 // Check capture quality and throw an error if bad.
                 if (!_sender.CheckCaptureResult(captureResult)) return;
 
-                SendMessage(Action.SendMessage, oHelper.HuellaCapturada);              
+                SendMessage(Action.SendMessage, "Capturando...");
+                Thread.Sleep(300);
+                LimpiarConsola();
 
-                DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
-                if (resultConversion.ResultCode != Constants.ResultCode.DP_SUCCESS)
+
+                conexion = funciones.ValidaConexionSQL();
+                if (conexion)
                 {
-                    _sender.Reset = true;
-                    throw new Exception(resultConversion.ResultCode.ToString());
-                }
+                    DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
+                    SendMessage(Action.SendMessage, oHelper.HuellaCapturada);
+                    Thread.Sleep(200);
 
-                if (count == 0)
-                {
-                    firstFinger = resultConversion.Data;
-
-                    conexion = funciones.ValidaConexionSQL();
-                    if (conexion)
+                    if (resultConversion.ResultCode != Constants.ResultCode.DP_SUCCESS)
                     {
-                        OperadorEncontrado = funciones.CompararHuella(firstFinger);
+                        _sender.Reset = true;
+                        throw new Exception(resultConversion.ResultCode.ToString());
+                    }
 
-                        if (OperadorEncontrado != null)
+                    if (count == 0)
+                    {
+                        firstFinger = resultConversion.Data;
+
+                        conexion = funciones.ValidaConexionSQL();
+                        if (conexion)
                         {
-                            SendMessage(Action.SendMessage, "Huella coincide con operador " + OperadorEncontrado.empID);
-                            SendMessage(Action.SendMessage, oHelper.ColocarHuella);
+                            OperadorEncontrado = funciones.CompararHuella(firstFinger);
+
+                            if (OperadorEncontrado != null)
+                            {
+                                SendMessage(Action.SendMessage, "Huella coincide con operador " + OperadorEncontrado.empID);
+                                SendMessage(Action.SendMessage, oHelper.ColocarHuella);
+                            }
+
+                            else
+                            {
+                                SendMessage(Action.SendMessage, oHelper.HuellaNoEncontrada);
+                                SendMessage(Action.SendMessage, oHelper.ColocarHuella);
+                            }
+
+                            count = 0;
                         }
 
                         else
                         {
-                            SendMessage(Action.SendMessage, oHelper.HuellaNoEncontrada);
-                            SendMessage(Action.SendMessage, oHelper.ColocarHuella);
+                            SendMessage(Action.SendMessage, oHelper.ErrorServidor);
+                            MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            CerrarEnrollmentForm();
                         }
-
-                        count = 0;
-                    }
-
-                    else
-                    {
-                        SendMessage(Action.SendMessage, oHelper.ErrorServidor);
                     }
                 }
-              
+
+                else
+                {
+                    SendMessage(Action.SendMessage, oHelper.ErrorServidor);
+                    MessageBox.Show(oHelper.ErrorServidor, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CerrarEnrollmentForm();
+                }
+                        
             }
 
             catch (Exception ex)
             {
                 // Send error message, then close form
                 SendMessage(Action.SendMessage, oHelper.Error + ex.Message);
-                                     
+                if (captureResult.ResultCode == Constants.ResultCode.DP_DEVICE_FAILURE)
+                {
+                    CerrarEnrollmentForm();
+                }
+
             }
         }
 
-        /// <summary>
-        /// Close window.
-        /// </summary>
         private void btnBack_Click(System.Object sender, System.EventArgs e)
         {
             this.Close();
         }
 
-        /// <summary>
-        /// Close window.
-        /// </summary>
         private void Verification_Closed(object sender, System.EventArgs e)
         {           
             _sender.CancelCaptureAndCloseReader(this.OnCaptured);
@@ -134,17 +145,17 @@ namespace UareUSampleCSharp
                 _sender.btnListar.Enabled = false;
                 _sender.btnEnroll.Enabled = false;
                 _sender.btnVerify.Enabled = false;
-                _sender.lblStatusMensaje.Text = oHelper.LectorOff;
             }
             
         }
 
-        #region SendMessage
+        #region Delegados
         private enum Action
         {
             SendMessage
         }
         private delegate void SendMessageCallback(Action action, string payload);
+        private delegate void MiDelegado();
         private void SendMessage(Action action, string payload)
         {
             try
@@ -164,13 +175,7 @@ namespace UareUSampleCSharp
                             txtVerify.SelectionStart = txtVerify.TextLength;
                             txtVerify.ScrollToCaret();
                             break;
-
                     }
-                }
-
-                if (payload == oHelper.Error + "DP_DEVICE_FAILURE")
-                {
-                    this.Close();
                 }
             }
 
@@ -178,6 +183,50 @@ namespace UareUSampleCSharp
             {
             }
 
+        }
+
+        private void LimpiarConsola()
+        {
+            try
+            {
+                int n = 0;
+                if (this.txtVerify.InvokeRequired)
+                {
+                    MiDelegado d = new MiDelegado(LimpiarConsola);
+                    this.Invoke(d);
+                }
+
+                else if (n == 0)
+                {
+                    txtVerify.Clear();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                string mensaje = ex.Message;
+            }
+        }
+
+        private void CerrarEnrollmentForm()
+        {
+            try
+            {
+                int n = 0;
+                if (this.InvokeRequired)
+                {
+                    MiDelegado d = new MiDelegado(CerrarEnrollmentForm);
+                    this.Invoke(d);
+                }
+                else if (n == 0)
+                {
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                string mensaje = ex.Message;
+            }
         }
         #endregion
 

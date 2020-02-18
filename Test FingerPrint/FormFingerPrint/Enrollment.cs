@@ -64,16 +64,17 @@ namespace UareUSampleCSharp
                 result = null;
                 switche = true;
 
-                DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
-
                 SendMessage(Action.SendMessage, "Capturando...");
-                Thread.Sleep(400);
+                Thread.Sleep(300);
+                LimpiarConsola();
 
                 conexion = funciones.ValidaConexionSQL();
                 if (conexion)
                 {
+                    DataResult<Fmd> resultConversion = FeatureExtraction.CreateFmdFromFid(captureResult.Data, Constants.Formats.Fmd.ANSI);
+  
                     SendMessage(Action.SendMessage, "Huella Capturada");
-                    Thread.Sleep(300);
+                    Thread.Sleep(200);
 
                     count++;
                     SendMessage(Action.SendMessage, "Numero de Intentos: " + count + "/" + "4");
@@ -85,6 +86,7 @@ namespace UareUSampleCSharp
                         throw new Exception(resultConversion.ResultCode.ToString());
                         
                     }
+
                     preenrollmentFmds.Add(resultConversion.Data);
                     SendMessage(Action.SendMessage, oHelper.ColocarHuella + " nuevamente");
 
@@ -110,8 +112,9 @@ namespace UareUSampleCSharp
                                 else
                                 {
                                     switche = false;
-                                    MessageBox.Show(oHelper.HuellaExiste, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    //MessageBox.Show(oHelper.HuellaExiste, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     LimpiarConsola();
+                                    SendMessage(Action.SendMessage, oHelper.HuellaExiste);
                                     SendMessage(Action.SendMessage, oHelper.ColocarHuella);
                                 }
 
@@ -176,7 +179,6 @@ namespace UareUSampleCSharp
                 {
                     e.Cancel = true;
                 }
-
             }
         }
 
@@ -184,8 +186,7 @@ namespace UareUSampleCSharp
         {
 
             _sender.CancelCaptureAndCloseReader(this.OnCaptured);
-            preenrollmentFmds.Clear();
-            txtEnroll.Clear();
+
             if (_sender.CurrentReader == null)
             {
                 MessageBox.Show(oHelper.LectorOff, oHelper.NombreSistema, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -194,6 +195,9 @@ namespace UareUSampleCSharp
                 _sender.btnVerify.Enabled = false;
                 switche = false;
             }
+
+            preenrollmentFmds.Clear();
+            txtEnroll.Clear();
         }
 
         #endregion
